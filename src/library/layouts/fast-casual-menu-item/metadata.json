@@ -1,0 +1,11 @@
+{
+  "id": "fast-casual-menu-item",
+  "displayName": "Fast Casual (Menu Item)",
+  "vertical": [
+    "FOOD_AND_DINING"
+  ],
+  "purpose": [
+    "CITATION"
+  ],
+  "pageSetType": "ENTITY"
+}

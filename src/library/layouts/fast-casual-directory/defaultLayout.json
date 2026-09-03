@@ -1,0 +1,1187 @@
+{
+  "root": {
+    "props": {
+      "version": 76,
+      "title": {
+        "field": "",
+        "constantValue": {
+          "defaultValue": "PLACEHOLDER"
+        },
+        "constantValueEnabled": true
+      },
+      "description": {
+        "field": "",
+        "constantValue": {
+          "defaultValue": "PLACEHOLDER"
+        },
+        "constantValueEnabled": true
+      }
+    },
+    "type": "root"
+  },
+  "content": [
+    {
+      "type": "FastCasualHeader",
+      "props": {
+        "id": "FastCasualHeader-42d3c226-4c84-4c32-8597-994bef3cf2d4",
+        "cta": {
+          "show": true,
+          "items": [
+            {
+              "cta": {
+                "data": {
+                  "cta": {
+                    "field": "",
+                    "selectedType": "textAndLink",
+                    "constantValue": {
+                      "link": {
+                        "defaultValue": "#"
+                      },
+                      "label": {
+                        "defaultValue": "CTA Label"
+                      },
+                      "ctaType": "textAndLink",
+                      "linkType": "URL"
+                    },
+                    "constantValueEnabled": true
+                  },
+                  "customId": "",
+                  "ariaLabel": {
+                    "defaultValue": "CTA Label"
+                  },
+                  "actionType": "link",
+                  "buttonText": {
+                    "defaultValue": "Button"
+                  },
+                  "customClass": "",
+                  "openInNewTab": false,
+                  "dataAttributes": []
+                },
+                "styles": {
+                  "link": {
+                    "fontSize": "default",
+                    "fontStyle": "default",
+                    "fontFamily": "default",
+                    "fontWeight": "default",
+                    "includeCaret": "default",
+                    "letterSpacing": "default",
+                    "textTransform": "default"
+                  },
+                  "color": {
+                    "selectedColor": "black",
+                    "contrastingColor": "white"
+                  },
+                  "button": {
+                    "fontSize": "default",
+                    "fontStyle": "default",
+                    "fontFamily": "default",
+                    "fontWeight": "default",
+                    "borderRadius": "default",
+                    "letterSpacing": "default",
+                    "textTransform": "default"
+                  },
+                  "variant": "primary"
+                }
+              }
+            }
+          ]
+        },
+        "section": {
+          "backgroundColor": {
+            "selectedColor": "white",
+            "contrastingColor": "black"
+          },
+          "visibleOnLivePage": true
+        },
+        "variant": "centerLogoSplitNav",
+        "logoImage": {
+          "url": {
+            "field": "",
+            "constantValue": {
+              "defaultValue": ""
+            },
+            "constantValueEnabled": true
+          },
+          "show": true,
+          "image": {
+            "field": "",
+            "constantValue": {
+              "url": "https://a.mktgcdn.com/p/OLT2KExDEKhKlCmIobyRRHN6MFUS77fVs5gIt_FTnBI/450x450.jpg",
+              "width": 450,
+              "height": 450
+            },
+            "constantValueEnabled": true
+          },
+          "styles": {
+            "borderRadius": "default"
+          },
+          "aspectRatio": 1,
+          "imageConstrain": "filled"
+        },
+        "utilities": {
+          "show": true,
+          "items": [
+            {
+              "link": "#",
+              "label": "Facebook",
+              "linkType": "URL",
+              "iconImage": {
+                "image": {
+                  "field": "",
+                  "constantValue": {
+                    "url": "",
+                    "width": 0,
+                    "height": 0
+                  },
+                  "constantValueEnabled": true
+                },
+                "styles": {
+                  "borderRadius": "default"
+                },
+                "aspectRatio": 1,
+                "imageConstrain": "fixed"
+              },
+              "openInNewTab": false,
+              "normalizeLink": false
+            },
+            {
+              "link": "#",
+              "label": "Instagram",
+              "linkType": "URL",
+              "iconImage": {
+                "image": {
+                  "field": "",
+                  "constantValue": {
+                    "url": "",
+                    "width": 0,
+                    "height": 0
+                  },
+                  "constantValueEnabled": true
+                },
+                "styles": {
+                  "borderRadius": "default"
+                },
+                "aspectRatio": 1,
+                "imageConstrain": "fixed"
+              },
+              "openInNewTab": false,
+              "normalizeLink": false
+            },
+            {
+              "link": "#",
+              "label": "Yelp",
+              "linkType": "URL",
+              "iconImage": {
+                "image": {
+                  "field": "",
+                  "constantValue": {
+                    "url": "",
+                    "width": 0,
+                    "height": 0
+                  },
+                  "constantValueEnabled": true
+                },
+                "styles": {
+                  "borderRadius": "default"
+                },
+                "aspectRatio": 1,
+                "imageConstrain": "fixed"
+              },
+              "openInNewTab": false,
+              "normalizeLink": false
+            }
+          ]
+        },
+        "navigation": {
+          "show": true,
+          "links": [
+            {
+              "link": "#",
+              "label": "Menu",
+              "linkType": "URL",
+              "openInNewTab": false,
+              "normalizeLink": false
+            },
+            {
+              "link": "#",
+              "label": "Catering",
+              "linkType": "URL",
+              "openInNewTab": false,
+              "normalizeLink": false
+            },
+            {
+              "link": "#",
+              "label": "Contact",
+              "linkType": "URL",
+              "openInNewTab": false,
+              "normalizeLink": false
+            }
+          ],
+          "styles": {
+            "fontSize": "default",
+            "fontStyle": "default",
+            "fontFamily": "default",
+            "fontWeight": "default",
+            "includeCaret": "default",
+            "letterSpacing": "default",
+            "textTransform": "default"
+          }
+        }
+      }
+    },
+    {
+      "type": "MainContent",
+      "props": {
+        "id": "MainContent-76dbbc2c-0ca1-479c-ac6b-5e6b4bd82be7",
+        "content": [
+          {
+            "type": "Directory",
+            "props": {
+              "styles": {
+                "backgroundColor": {
+                  "selectedColor": "white",
+                  "contrastingColor": "black"
+                },
+                "listBackgroundColor": {
+                  "selectedColor": "white",
+                  "contrastingColor": "black"
+                }
+              },
+              "slots": {
+                "TitleSlot": [
+                  {
+                    "type": "HeadingTextSlot",
+                    "props": {
+                      "id": "HeadingTextSlot-1a871989-a34d-426c-b24a-a1888c1a46ea",
+                      "data": {
+                        "text": {
+                          "constantValue": {
+                            "defaultValue": ""
+                          },
+                          "constantValueEnabled": false,
+                          "field": "name"
+                        }
+                      },
+                      "styles": {
+                        "level": 2,
+                        "align": "center"
+                      }
+                    }
+                  }
+                ],
+                "SiteNameSlot": [
+                  {
+                    "type": "HeadingTextSlot",
+                    "props": {
+                      "id": "HeadingTextSlot-9a120ff6-d494-4ec8-9ab8-e43017d77c03",
+                      "data": {
+                        "text": {
+                          "constantValue": {
+                            "defaultValue": ""
+                          },
+                          "constantValueEnabled": true,
+                          "field": "name"
+                        }
+                      },
+                      "styles": {
+                        "level": 4,
+                        "align": "center"
+                      }
+                    }
+                  }
+                ],
+                "BreadcrumbsSlot": [
+                  {
+                    "type": "BreadcrumbsSlot",
+                    "props": {
+                      "id": "BreadcrumbsSlot-13dba298-abd1-4f75-a7e9-b19779a4fc5b",
+                      "data": {
+                        "directoryRoot": {
+                          "defaultValue": "Directory Root"
+                        },
+                        "currentPage": {
+                          "constantValue": {
+                            "defaultValue": "[[name]]"
+                          },
+                          "field": "name",
+                          "constantValueEnabled": false
+                        }
+                      },
+                      "styles": {
+                        "backgroundColor": {
+                          "selectedColor": "white",
+                          "contrastingColor": "black"
+                        },
+                        "showCurrentPage": true
+                      },
+                      "analytics": {
+                        "scope": "directory"
+                      },
+                      "liveVisibility": true
+                    }
+                  }
+                ],
+                "DirectoryGrid": [
+                  {
+                    "type": "DirectoryGrid",
+                    "props": {
+                      "id": "DirectoryGrid-dab8e202-600a-47da-b5c7-971df3f504fb",
+                      "styles": {
+                        "backgroundColor": {
+                          "selectedColor": "white",
+                          "contrastingColor": "black"
+                        }
+                      },
+                      "slots": {
+                        "CardSlot": []
+                      }
+                    }
+                  }
+                ]
+              },
+              "analytics": {
+                "scope": "directory"
+              },
+              "id": "Directory-d21d6943-0a81-4a8e-b76b-cecb5b157c14"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "FastCasualFooter",
+      "props": {
+        "id": "FastCasualFooter-ca62dcd2-0eb1-476a-bc3a-75e543cbc6ea",
+        "section": {
+          "backgroundColor": {
+            "selectedColor": "palette-primary",
+            "contrastingColor": "palette-primary-contrast"
+          },
+          "visibleOnLivePage": true
+        },
+        "brandName": {
+          "text": {
+            "field": "name",
+            "constantValue": {
+              "defaultValue": ""
+            },
+            "constantValueEnabled": false
+          },
+          "styles": {
+            "fontSize": "default",
+            "fontStyle": "default",
+            "fontFamily": "default",
+            "fontWeight": "default",
+            "textTransform": "default"
+          }
+        },
+        "copyright": {
+          "text": {
+            "field": "",
+            "constantValue": {
+              "defaultValue": "© 2026 [[name]]"
+            },
+            "constantValueEnabled": true
+          },
+          "styles": {
+            "fontSize": "default",
+            "fontStyle": "default",
+            "fontFamily": "default",
+            "fontWeight": "default",
+            "textTransform": "default"
+          }
+        },
+        "logoImage": {
+          "image": {
+            "field": "",
+            "constantValue": {
+              "url": "https://a.mktgcdn.com/p/OLT2KExDEKhKlCmIobyRRHN6MFUS77fVs5gIt_FTnBI/450x450.jpg",
+              "width": 450,
+              "height": 450
+            },
+            "constantValueEnabled": true
+          },
+          "aspectRatio": 1,
+          "imageConstrain": "filled"
+        },
+        "legalLinks": [
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Privacy",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Terms",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Accessibility",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          }
+        ],
+        "quickLinks": [
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Menu",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Order Online",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Reservations",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Group Events",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Catering",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Careers",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Gift Cards",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Contact",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          }
+        ],
+        "appStoreCta": {
+          "data": {
+            "cta": {
+              "field": "",
+              "constantValue": {
+                "link": "#",
+                "label": {
+                  "defaultValue": ""
+                },
+                "ctaType": "presetImage",
+                "openInNewTab": false
+              },
+              "constantValueEnabled": true
+            },
+            "customId": "",
+            "ariaLabel": {
+              "defaultValue": "Button"
+            },
+            "actionType": "link",
+            "buttonText": {
+              "defaultValue": "Button"
+            },
+            "customClass": "",
+            "openInNewTab": false,
+            "dataAttributes": []
+          },
+          "styles": {
+            "link": {
+              "fontSize": "default",
+              "fontStyle": "default",
+              "fontFamily": "default",
+              "fontWeight": "default",
+              "includeCaret": "default",
+              "letterSpacing": "default",
+              "textTransform": "default"
+            },
+            "button": {
+              "fontSize": "default",
+              "fontStyle": "default",
+              "fontFamily": "default",
+              "fontWeight": "default",
+              "borderRadius": "default",
+              "letterSpacing": "default",
+              "textTransform": "default"
+            },
+            "variant": "link",
+            "presetImage": "app-store"
+          }
+        },
+        "socialLinks": [
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Facebook",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Instagram",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          },
+          {
+            "cta": {
+              "data": {
+                "cta": {
+                  "field": "",
+                  "constantValue": {
+                    "link": "#",
+                    "label": "Yelp",
+                    "openInNewTab": false
+                  },
+                  "constantValueEnabled": true
+                },
+                "customId": "",
+                "ariaLabel": {
+                  "defaultValue": "Button"
+                },
+                "actionType": "link",
+                "buttonText": {
+                  "defaultValue": "Button"
+                },
+                "customClass": "",
+                "openInNewTab": false,
+                "dataAttributes": []
+              },
+              "styles": {
+                "link": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "includeCaret": "none",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "button": {
+                  "fontSize": "default",
+                  "fontStyle": "default",
+                  "fontFamily": "default",
+                  "fontWeight": "default",
+                  "borderRadius": "default",
+                  "letterSpacing": "default",
+                  "textTransform": "default"
+                },
+                "variant": "link",
+                "presetImage": "app-store"
+              }
+            }
+          }
+        ],
+        "playStoreCta": {
+          "data": {
+            "cta": {
+              "field": "",
+              "constantValue": {
+                "link": "#",
+                "label": {
+                  "defaultValue": ""
+                },
+                "ctaType": "presetImage",
+                "openInNewTab": false
+              },
+              "constantValueEnabled": true
+            },
+            "customId": "",
+            "ariaLabel": {
+              "defaultValue": "Button"
+            },
+            "actionType": "link",
+            "buttonText": {
+              "defaultValue": "Button"
+            },
+            "customClass": "",
+            "openInNewTab": false,
+            "dataAttributes": []
+          },
+          "styles": {
+            "link": {
+              "fontSize": "default",
+              "fontStyle": "default",
+              "fontFamily": "default",
+              "fontWeight": "default",
+              "includeCaret": "default",
+              "letterSpacing": "default",
+              "textTransform": "default"
+            },
+            "button": {
+              "fontSize": "default",
+              "fontStyle": "default",
+              "fontFamily": "default",
+              "fontWeight": "default",
+              "borderRadius": "default",
+              "letterSpacing": "default",
+              "textTransform": "default"
+            },
+            "variant": "link",
+            "presetImage": "google-play"
+          }
+        }
+      }
+    }
+  ],
+  "zones": {}
+}
