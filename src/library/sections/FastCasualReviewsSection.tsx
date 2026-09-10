@@ -1,4 +1,10 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  getScopedTypographyStyles,
+  getTextStyle,
+  getThemeColorCssValue,
+  resolveTextColor,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
@@ -124,69 +130,6 @@ const ReviewsFields: YextFields<ReviewsProps> = {
   },
 };
 
-const textStylesToCss = (styles: StyledTextValue) => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-});
-
-const colorValueToCss = (color?: ThemeColor | string) => {
-  if (!color) {
-    return undefined;
-  }
-
-  const selectedColor = typeof color === "string" ? color : color.selectedColor;
-
-  if (selectedColor.startsWith("[") && selectedColor.endsWith("]")) {
-    return selectedColor.slice(1, -1);
-  }
-
-  switch (selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-contrast":
-      return "var(--colors-palette-primary-contrast)";
-    case "palette-secondary-contrast":
-      return "var(--colors-palette-secondary-contrast)";
-    case "palette-tertiary-contrast":
-      return "var(--colors-palette-tertiary-contrast)";
-    case "palette-quaternary-contrast":
-      return "var(--colors-palette-quaternary-contrast)";
-    case "white":
-      return "#FFFFFF";
-    default:
-      return selectedColor;
-  }
-};
-
-const themeColorToCss = (color?: ThemeColor | string) => colorValueToCss(color);
-
-const resolveTextColor = (
-  fontColor: ThemeColor | undefined,
-  fallbackColor: ThemeColor | string,
-) => themeColorToCss(fontColor) ?? colorValueToCss(fallbackColor);
-
 const renderStarRating = (rating: number): string => {
   const roundedRating = Math.max(0, Math.min(5, Math.round(rating)));
   return `${"★".repeat(roundedRating)}${"☆".repeat(5 - roundedRating)}`;
@@ -194,85 +137,9 @@ const renderStarRating = (rating: number): string => {
 
 const reviewsTypographyScopeClass = "yfc-reviews-typography";
 
-const reviewsTypographyStyles = `
-  .${reviewsTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${reviewsTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${reviewsTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${reviewsTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${reviewsTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${reviewsTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${reviewsTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${reviewsTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${reviewsTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${reviewsTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-`;
+const reviewsTypographyStyles = getScopedTypographyStyles(
+  reviewsTypographyScopeClass,
+);
 
 const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
   const streamDocument = useDocument<{
@@ -289,10 +156,10 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
   const headingText =
     resolveComponentData(props.heading.text, locale, streamDocument) || "";
   const sectionForeground =
-    themeColorToCss(props.section.backgroundColor.contrastingColor) ??
+    getThemeColorCssValue(props.section.backgroundColor.contrastingColor) ??
     "#000000";
   const cardForeground =
-    themeColorToCss(props.cardBackgroundColor.contrastingColor) ??
+    getThemeColorCssValue(props.cardBackgroundColor.contrastingColor) ??
     sectionForeground;
 
   if (!reviews.length) {
@@ -324,7 +191,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
         <section
           className={`${reviewsTypographyScopeClass} bg-white px-6 py-8 md:px-8 md:py-10`}
           style={{
-            backgroundColor: themeColorToCss(props.section.backgroundColor),
+            backgroundColor: getThemeColorCssValue(props.section.backgroundColor),
           }}
         >
           <style>{reviewsTypographyStyles}</style>
@@ -338,7 +205,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                 <h2
                   className="mb-2 text-[34px] font-bold leading-none md:text-[44px]"
                   style={{
-                    ...textStylesToCss(props.heading.styles),
+                    ...getTextStyle(props.heading.styles),
                     color: resolveTextColor(
                       props.heading.fontColor,
                       props.section.backgroundColor.contrastingColor,
@@ -370,7 +237,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                     key={`${review.authorName}-${index}`}
                     className="rounded-[12px] p-5"
                     style={{
-                      backgroundColor: themeColorToCss(
+                      backgroundColor: getThemeColorCssValue(
                         props.cardBackgroundColor,
                       ),
                       color: cardForeground,
@@ -379,7 +246,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                     <h3
                       className="mb-2 text-[18px] font-bold text-current"
                       style={{
-                        ...textStylesToCss(props.reviewerName.styles),
+                        ...getTextStyle(props.reviewerName.styles),
                         color: resolveTextColor(
                           props.reviewerName.fontColor,
                           cardForeground,
@@ -407,7 +274,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                     <p
                       className="text-[14px] leading-6 text-current"
                       style={{
-                        ...textStylesToCss(props.reviewText.styles),
+                        ...getTextStyle(props.reviewText.styles),
                         color: resolveTextColor(
                           props.reviewText.fontColor,
                           cardForeground,

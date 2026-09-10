@@ -1,4 +1,9 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  getScopedTypographyStyles,
+  getTextStyle,
+  resolveTextColor,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import { parsePhoneNumber } from "awesome-phonenumber";
@@ -14,7 +19,7 @@ import {
   EntityField,
   type ComprehensiveCTAValue,
   Image,
-  MaybeRTF,
+  StyledTextComponent,
   StyledTextValue,
   ThemeColor,
   TranslatableAssetImage,
@@ -28,7 +33,8 @@ import {
   resolveComponentData,
   useDocument,
   VisibilityWrapper,
-  isDarkColor,
+  getDefaultForegroundColor,
+  getSurfaceColorStyle,
 } from "@yext/visual-editor";
 
 type BasicLink = {
@@ -127,60 +133,6 @@ const getCtaSummary = (
   cta: LinkLikeCta | undefined,
   fallback: string,
 ): string => getEditableSummary(cta?.data?.cta?.constantValue?.label, fallback);
-
-const colorValueToCss = (color?: string) => {
-  if (!color) {
-    return undefined;
-  }
-
-  if (color.startsWith("[") && color.endsWith("]")) {
-    return color.slice(1, -1);
-  }
-
-  switch (color) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    default:
-      return color;
-  }
-};
-
-const themeColorToCss = (color?: ThemeColor) =>
-  colorValueToCss(color?.selectedColor);
-
-const resolveTextColor = (
-  fontColor: ThemeColor | undefined,
-  fallbackColor: string,
-) => themeColorToCss(fontColor) ?? colorValueToCss(fallbackColor);
-
-const textStylesToCss = (styles: StyledTextValue) => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-});
 
 const makeTextStyles = (): StyledTextValue => ({
   fontFamily: "default",
@@ -395,92 +347,22 @@ const DetailsFields: YextFields<DetailsProps> = {
 
 const detailsTypographyScopeClass = "yfc-details-typography";
 
-const detailsTypographyStyles = `
-  .${detailsTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${detailsTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${detailsTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${detailsTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${detailsTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${detailsTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${detailsTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${detailsTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${detailsTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${detailsTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-`;
+const detailsTypographyStyles = getScopedTypographyStyles(
+  detailsTypographyScopeClass,
+);
 
 const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
   const streamDocument = useDocument();
   const locale = streamDocument.locale ?? "en";
-  const panelForeground = isDarkColor(props.panelBackgroundColor)
-    ? "#FFFFFF"
-    : "#000000";
+  const sectionStyle = getSurfaceColorStyle(
+    props.section.backgroundColor,
+    streamDocument,
+  );
+  const panelStyle = getSurfaceColorStyle(
+    props.panelBackgroundColor,
+    streamDocument,
+  );
+  const panelForeground = panelStyle?.color ?? "#000000";
   const resolvedImage = resolveComponentData(
     props.image.image,
     locale,
@@ -519,13 +401,6 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
       : "US";
   const headingText =
     resolveComponentData(props.heading.text, locale, streamDocument) || "";
-  const details =
-    resolveComponentData(props.details.text, locale, streamDocument, {
-      richTextStyleOverrides: {
-        ...textStylesToCss(props.details.styles),
-        color: resolveTextColor(props.details.fontColor, panelForeground),
-      },
-    }) || "";
   const resolvedPhones = (props.phones.items ?? [])
     .map((item) => {
       const resolvedNumber = resolveComponentData(
@@ -558,16 +433,12 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
       <AnalyticsScopeProvider name={scopeName}>
         <section
           className={`${detailsTypographyScopeClass} bg-white px-0 py-0 md:px-8 md:py-5`}
-          style={{
-            backgroundColor: themeColorToCss(props.section.backgroundColor),
-          }}
+          style={sectionStyle}
         >
           <style>{detailsTypographyStyles}</style>
           <div
             className="mx-auto grid max-w-[1440px] grid-rows-2 overflow-hidden md:rounded-[14px] lg:grid-cols-2 lg:grid-rows-1"
-            style={{
-              backgroundColor: themeColorToCss(props.panelBackgroundColor),
-            }}
+            style={panelStyle}
           >
             <div
               className="relative order-2 overflow-hidden lg:order-1"
@@ -606,7 +477,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                 <h2
                   className="text-[30px] font-bold leading-none md:text-[36px]"
                   style={{
-                    ...textStylesToCss(props.heading.styles),
+                    ...getTextStyle(props.heading.styles),
                     color: resolveTextColor(
                       props.heading.fontColor,
                       panelForeground,
@@ -697,28 +568,19 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                   <p className="text-[12px] font-bold uppercase tracking-[0.08em]">
                     Other Details
                   </p>
-                  <EntityField
-                    displayName="Details"
-                    fieldId={props.details.text.field}
-                    constantValueEnabled={
-                      props.details.text.constantValueEnabled
-                    }
-                  >
-                    {React.isValidElement(details) ? (
-                      details
-                    ) : (
-                      <MaybeRTF
-                        data={details as string | undefined}
-                        richTextStyleOverrides={{
-                          ...textStylesToCss(props.details.styles),
-                          color: resolveTextColor(
-                            props.details.fontColor,
-                            panelForeground,
-                          ),
-                        }}
-                      />
-                    )}
-                  </EntityField>
+                  <StyledTextComponent
+                    data={{ text: props.details.text }}
+                    fontOptions={{
+                      ...props.details.styles,
+                      color:
+                        props.details.fontColor ??
+                        getDefaultForegroundColor(
+                          props.panelBackgroundColor,
+                          streamDocument,
+                        ),
+                    }}
+                    kind="richText"
+                  />
                 </div>
               </div>
             </div>

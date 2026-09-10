@@ -1,14 +1,12 @@
 import type { SectionConfig } from "@yext/visual-editor";
 
-import { isValidElement } from "react";
 import { PuckComponent } from "@puckeditor/core";
 import { CircleSlash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import {
   Body,
-  EntityField,
-  MaybeRTF,
   PageSection,
+  StyledTextComponent,
   type StyledTextValue,
   type ThemeColor,
   type TranslatableRichText,
@@ -18,9 +16,8 @@ import {
   type YextFields,
   backgroundColors,
   getDefaultRTF,
-  resolveComponentData,
+  getSurfaceColorStyle,
   resolveYextEntityField,
-  toPuckFields,
   useDocument,
 } from "@yext/visual-editor";
 
@@ -140,6 +137,10 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
       <PageSection
         background={section.backgroundColor}
         className="flex items-center justify-center"
+        outerStyle={getSurfaceColorStyle(
+          section.backgroundColor,
+          streamDocument,
+        )}
         verticalPadding="sm"
       >
         <div className="relative flex h-20 w-full flex-row items-center justify-center gap-3 rounded-lg border border-gray-200 bg-gray-100 px-4">
@@ -157,21 +158,6 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
     );
   }
 
-  const richTextStyleOverrides = {
-    ...data.styles,
-    color: data.fontColor ?? section.backgroundColor.contrastingColor,
-  };
-  const resolvedText = resolveComponentData(
-    data.text,
-    i18n.language,
-    streamDocument,
-    { richTextStyleOverrides },
-  );
-
-  if (!resolvedText) {
-    return <></>;
-  }
-
   return (
     <PageSection
       background={section.backgroundColor}
@@ -182,22 +168,24 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
           right: "justify-end text-right",
         }[styles.textAlignment]
       }`}
+      outerStyle={getSurfaceColorStyle(
+        section.backgroundColor,
+        streamDocument,
+      )}
       verticalPadding="sm"
     >
-      <EntityField
-        constantValueEnabled={data.text.constantValueEnabled}
-        displayName="Banner Text"
-        fieldId={data.text.field}
-      >
-        {isValidElement(resolvedText) ? (
-          resolvedText
-        ) : typeof resolvedText === "string" ? (
-          <MaybeRTF
-            data={resolvedText}
-            richTextStyleOverrides={richTextStyleOverrides}
-          />
-        ) : null}
-      </EntityField>
+      <StyledTextComponent
+        data={{ text: data.text }}
+        fontOptions={{
+          ...data.styles,
+          color:
+            data.fontColor ?? {
+              selectedColor: section.backgroundColor.contrastingColor,
+              contrastingColor: section.backgroundColor.selectedColor,
+            },
+        }}
+        kind="richText"
+      />
     </PageSection>
   );
 };
@@ -207,7 +195,7 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
  */
 export const FastCasualBanner: YextComponentConfig<FastCasualBannerProps> = {
   label: "Banner",
-  fields: toPuckFields(FastCasualBannerFields),
+  fields: FastCasualBannerFields,
   defaultProps: {
     data: {
       text: {

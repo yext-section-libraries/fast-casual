@@ -1,4 +1,11 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  getScopedTypographyStyles,
+  getRichTextValue,
+  getTextStyle,
+  getThemeColorCssValue,
+  resolveTextColor,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
@@ -24,7 +31,6 @@ import {
   YextEntityField,
   YextFields,
   resolveComponentData,
-  toPuckFields,
   useDocument,
   isDarkColor,
 } from "@yext/visual-editor";
@@ -307,50 +313,6 @@ const FeaturedFields: YextFields<FeaturedProps> = {
   },
 };
 
-const themeColorToCss = (color?: ThemeColor | string) => {
-  if (!color) {
-    return undefined;
-  }
-
-  const selectedColor = typeof color === "string" ? color : color.selectedColor;
-
-  if (selectedColor.startsWith("[") && selectedColor.endsWith("]")) {
-    return selectedColor.slice(1, -1);
-  }
-
-  switch (selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    default:
-      return selectedColor;
-  }
-};
-
-const resolveTextColor = (
-  fontColor: ThemeColor | undefined,
-  fallbackColor: ThemeColor | string,
-) => themeColorToCss(fontColor) ?? themeColorToCss(fallbackColor);
-
 const toRenderableText = (value: unknown) => {
   if (typeof value === "string") {
     return value;
@@ -402,102 +364,11 @@ const resolveImageBorderRadius = (
   borderRadius?: StyledImageValue["borderRadius"],
 ) => (borderRadius === "default" ? "14px" : borderRadius);
 
-const textStylesToCss = (styles?: StyledTextValue) => {
-  if (!styles) {
-    return {};
-  }
-
-  return {
-    fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-    fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-    fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-    fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-    textTransform:
-      styles.textTransform === "default" ? undefined : styles.textTransform,
-  };
-};
-
 const featuredTypographyScopeClass = "yfc-featured-typography";
 
-const featuredTypographyStyles = `
-  .${featuredTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${featuredTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${featuredTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${featuredTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${featuredTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${featuredTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${featuredTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${featuredTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${featuredTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${featuredTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-`;
+const featuredTypographyStyles = getScopedTypographyStyles(
+  featuredTypographyScopeClass,
+);
 
 const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
   const streamDocument = useDocument();
@@ -525,7 +396,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
         <section
           className={`${featuredTypographyScopeClass} px-6 py-6 md:px-8 md:py-8`}
           style={{
-            backgroundColor: themeColorToCss(props.section.backgroundColor),
+            backgroundColor: getThemeColorCssValue(props.section.backgroundColor),
           }}
         >
           <style>{featuredTypographyStyles}</style>
@@ -538,7 +409,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
               <h2
                 className="text-left text-[34px] font-bold leading-none md:text-[44px] lg:text-center"
                 style={{
-                  ...textStylesToCss(props.heading.styles),
+                  ...getTextStyle(props.heading.styles),
                   color: resolveTextColor(
                     props.heading.fontColor,
                     sectionForeground,
@@ -561,26 +432,19 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
                     )
                   : "";
                 const descriptionRichTextStyleOverrides = {
-                  ...textStylesToCss(props.description?.styles),
+                  ...getTextStyle(props.description?.styles),
                   color: resolveTextColor(
                     props.description?.fontColor,
                     cardForeground,
                   ),
                 };
-                const description = item.description
-                  ? resolveComponentData(
-                      item.description,
-                      locale,
-                      streamDocument,
-                      {
-                        richTextStyleOverrides:
-                          descriptionRichTextStyleOverrides,
-                      },
-                    )
-                  : undefined;
+                const description = getRichTextValue(
+                  item.description,
+                  locale,
+                );
                 const isReversed = index % 2 === 0;
                 const titleStyle = {
-                  ...textStylesToCss(props.title?.styles),
+                  ...getTextStyle(props.title?.styles),
                   color: resolveTextColor(
                     props.title?.fontColor,
                     cardForeground,
@@ -602,7 +466,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
                       <div
                         className="grid min-h-0 gap-[20px] rounded-t-[var(--featured-card-radius)] rounded-b-none px-5 py-5 lg:h-full lg:rounded-[var(--featured-card-radius)] lg:px-7 lg:py-7"
                         style={{
-                          backgroundColor: themeColorToCss(
+                          backgroundColor: getThemeColorCssValue(
                             props.cardBackgroundColor,
                           ),
                           ...itemBorderRadiusStyles,
@@ -615,21 +479,13 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
                           {titleText}
                         </h3>
                         <div className="min-h-0 overflow-visible">
-                          {React.isValidElement(description) ? (
-                            description
-                          ) : (
-                            <MaybeRTF
-                              data={
-                                typeof description === "string"
-                                  ? description
-                                  : undefined
-                              }
-                              richTextStyleOverrides={
-                                descriptionRichTextStyleOverrides
-                              }
-                              className="text-[15px] leading-6"
-                            />
-                          )}
+                          <MaybeRTF
+                            data={description}
+                            richTextStyleOverrides={
+                              descriptionRichTextStyleOverrides
+                            }
+                            className="text-[15px] leading-6"
+                          />
                         </div>
                         {item.cta ? (
                           <div className="shrink-0">
@@ -674,7 +530,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
 export const FastCasualFeaturedItemsSection: YextComponentConfig<FeaturedProps> =
   {
     label: "Featured Items Section",
-    fields: toPuckFields(FeaturedFields),
+    fields: FeaturedFields,
     defaultProps: {
       section: {
         visibleOnLivePage: true,

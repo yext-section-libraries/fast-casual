@@ -1,4 +1,10 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  getScopedTypographyStyles,
+  getTextStyle,
+  getThemeColorCssValue,
+  resolveTextColor,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
@@ -267,149 +273,9 @@ const HeroFields: YextFields<HeroProps> = {
 
 const heroTypographyScopeClass = "yfc-hero-typography";
 
-const heroTypographyStyles = `
-  .${heroTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${heroTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${heroTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${heroTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${heroTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${heroTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${heroTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${heroTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${heroTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${heroTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-`;
-
-const textStylesToCss = (styles: StyledTextValue) => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-});
-
-const colorValueToCss = (color?: string) => {
-  if (!color) {
-    return undefined;
-  }
-
-  if (color.startsWith("[") && color.endsWith("]")) {
-    return color.slice(1, -1);
-  }
-
-  switch (color) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "palette-primary-contrast":
-      return "var(--colors-palette-primary-contrast)";
-    case "palette-secondary-contrast":
-      return "var(--colors-palette-secondary-contrast)";
-    case "palette-tertiary-contrast":
-      return "var(--colors-palette-tertiary-contrast)";
-    case "palette-quaternary-contrast":
-      return "var(--colors-palette-quaternary-contrast)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color;
-  }
-};
-
-const themeColorToCss = (color?: ThemeColor) =>
-  colorValueToCss(color?.selectedColor);
-
-const resolveTextColor = (
-  fontColor: ThemeColor | undefined,
-  fallbackColor: string,
-) => themeColorToCss(fontColor) ?? colorValueToCss(fallbackColor);
+const heroTypographyStyles = getScopedTypographyStyles(
+  heroTypographyScopeClass,
+);
 
 const getDefaultCTAColor = (isDarkBackground: boolean): ThemeColor =>
   isDarkBackground
@@ -478,7 +344,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
   const rawHours = resolveComponentData(props.hours, locale, streamDocument);
   const resolvedHours = isResolvedHours(rawHours) ? rawHours : undefined;
   const scopeName = `YextFastCasualHeroSection${getAnalyticsScopeHash(props.id)}`;
-  const panelBackground = themeColorToCss(props.section.backgroundColor);
+  const panelBackground = getThemeColorCssValue(props.section.backgroundColor);
 
   const panelIsDark = isDarkColor(
     props.section.backgroundColor,
@@ -529,10 +395,10 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
           className="rounded-full px-3 py-1 text-[10px] font-bold"
           style={{
             backgroundColor:
-              themeColorToCss(defaultCTAColor) ??
+              getThemeColorCssValue(defaultCTAColor) ??
               (panelIsDark ? "#FFFFFF" : "#000000"),
             color:
-              colorValueToCss(defaultCTAColor.contrastingColor) ??
+              getThemeColorCssValue(defaultCTAColor.contrastingColor) ??
               (panelIsDark ? "#000000" : "#FFFFFF"),
           }}
         >
@@ -586,7 +452,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
                 <p
                   className="mb-2 text-[13px] font-semibold uppercase tracking-[0.08em]"
                   style={{
-                    ...textStylesToCss(props.brandName.styles),
+                    ...getTextStyle(props.brandName.styles),
                     color: heroTextColor,
                   }}
                 >
@@ -603,7 +469,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
                 <h1
                   className="mb-3 text-[38px] font-bold uppercase leading-none md:text-[46px]"
                   style={{
-                    ...textStylesToCss(props.geomodifier.styles),
+                    ...getTextStyle(props.geomodifier.styles),
                     color: heroHeadingColor,
                   }}
                 >

@@ -1,12 +1,18 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  getScopedTypographyStyles,
+  getTextStyle,
+  resolveTextColor,
+} from "../shared/styleHelpers";
 
-import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
 import { AnalyticsScopeProvider } from "@yext/pages-components";
 import {
   EntityField,
   getAnalyticsScopeHash,
-  MaybeRTF,
+  getDefaultForegroundColor,
+  getSurfaceColorStyle,
+  StyledTextComponent,
   StyledTextValue,
   ThemeColor,
   TranslatableRichText,
@@ -17,7 +23,6 @@ import {
   resolveComponentData,
   useDocument,
   VisibilityWrapper,
-  isDarkColor,
 } from "@yext/visual-editor";
 
 type AboutProps = {
@@ -124,169 +129,24 @@ const AboutFields: YextFields<AboutProps> = {
   },
 };
 
-const textStylesToCss = (styles?: StyledTextValue) => {
-  if (!styles) {
-    return {};
-  }
-
-  return {
-    fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-    fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-    fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-    fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-    textTransform:
-      styles.textTransform === "default" ? undefined : styles.textTransform,
-  };
-};
-
-const colorValueToCss = (color?: string) => {
-  if (!color) {
-    return undefined;
-  }
-
-  if (color.startsWith("[") && color.endsWith("]")) {
-    return color.slice(1, -1);
-  }
-
-  switch (color) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    default:
-      return color;
-  }
-};
-
-const themeColorToCss = (color?: ThemeColor) =>
-  colorValueToCss(color?.selectedColor);
-
-const resolveTextColor = (
-  fontColor: ThemeColor | undefined,
-  fallbackColor: string,
-) => themeColorToCss(fontColor) ?? colorValueToCss(fallbackColor);
-
 const aboutTypographyScopeClass = "yfc-about-typography";
 
-const aboutTypographyStyles = `
-  .${aboutTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${aboutTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${aboutTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${aboutTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${aboutTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${aboutTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${aboutTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${aboutTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${aboutTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${aboutTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-`;
+const aboutTypographyStyles = getScopedTypographyStyles(
+  aboutTypographyScopeClass,
+);
 
 const AboutComponent: PuckComponent<AboutProps> = (props) => {
   const streamDocument = useDocument();
   const locale = streamDocument.locale ?? "en";
-  const sectionForeground = isDarkColor(props.section.backgroundColor)
-    ? "#FFFFFF"
-    : "#000000";
+  const sectionStyle = getSurfaceColorStyle(
+    props.section.backgroundColor,
+    streamDocument,
+  );
+  const sectionForeground = sectionStyle?.color ?? "#000000";
   const eyebrowText =
     resolveComponentData(props.eyebrow.text, locale, streamDocument) || "";
   const headingText =
     resolveComponentData(props.heading.text, locale, streamDocument) || "";
-  const descriptionTextStyles = props.description
-    ? {
-        ...textStylesToCss(props.description.styles),
-        color: resolveTextColor(props.description.fontColor, sectionForeground),
-      }
-    : undefined;
-  const description = props.description
-    ? resolveComponentData(props.description.text, locale, streamDocument, {
-        richTextStyleOverrides: descriptionTextStyles,
-      })
-    : undefined;
   const scopeName = `YextFastCasualAboutSection${getAnalyticsScopeHash(props.id)}`;
 
   return (
@@ -297,9 +157,7 @@ const AboutComponent: PuckComponent<AboutProps> = (props) => {
       <AnalyticsScopeProvider name={scopeName}>
         <section
           className={`${aboutTypographyScopeClass} px-6 py-10 md:px-8 md:py-12`}
-          style={{
-            backgroundColor: themeColorToCss(props.section.backgroundColor),
-          }}
+          style={sectionStyle}
         >
           <style>{aboutTypographyStyles}</style>
           <div className="mx-auto max-w-[1440px]">
@@ -313,7 +171,7 @@ const AboutComponent: PuckComponent<AboutProps> = (props) => {
                   <p
                     className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em]"
                     style={{
-                      ...textStylesToCss(props.eyebrow.styles),
+                      ...getTextStyle(props.eyebrow.styles),
                       color: resolveTextColor(
                         props.eyebrow.fontColor,
                         sectionForeground,
@@ -331,7 +189,7 @@ const AboutComponent: PuckComponent<AboutProps> = (props) => {
                   <h2
                     className="text-[34px] font-bold leading-[1.05] md:text-[46px]"
                     style={{
-                      ...textStylesToCss(props.heading.styles),
+                      ...getTextStyle(props.heading.styles),
                       color: resolveTextColor(
                         props.heading.fontColor,
                         sectionForeground,
@@ -343,26 +201,19 @@ const AboutComponent: PuckComponent<AboutProps> = (props) => {
                 </EntityField>
               </div>
               {props.description ? (
-                <EntityField
-                  displayName="Description"
-                  fieldId={props.description.text.field}
-                  constantValueEnabled={
-                    props.description.text.constantValueEnabled
-                  }
-                >
-                  {React.isValidElement(description) ? (
-                    description
-                  ) : (
-                    <MaybeRTF
-                      data={
-                        typeof description === "string"
-                          ? description
-                          : undefined
-                      }
-                      richTextStyleOverrides={descriptionTextStyles}
-                    />
-                  )}
-                </EntityField>
+                <StyledTextComponent
+                  data={{ text: props.description.text }}
+                  fontOptions={{
+                    ...props.description.styles,
+                    color:
+                      props.description.fontColor ??
+                      getDefaultForegroundColor(
+                        props.section.backgroundColor,
+                        streamDocument,
+                      ),
+                  }}
+                  kind="richText"
+                />
               ) : null}
             </div>
           </div>

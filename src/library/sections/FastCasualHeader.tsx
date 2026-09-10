@@ -1,4 +1,10 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  createAspectRatioField,
+  getLinkStyle,
+  getScopedTypographyStyles,
+  getThemeColorCssValue,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import { type PuckComponent } from "@puckeditor/core";
@@ -11,6 +17,7 @@ import {
   useAnalytics,
 } from "@yext/pages-components";
 import {
+  Background,
   ComprehensiveCTA,
   type ComprehensiveCTAValue,
   EntityField,
@@ -27,6 +34,7 @@ import {
   type YextEntityField,
   type YextFields,
   getAnalyticsScopeHash,
+  getSurfaceColorStyle,
   i18nComponentsInstance,
   normalizeLink,
   resolveComponentData,
@@ -251,39 +259,6 @@ const getReadableForegroundColor = (surfaceColor: ThemeColor): ThemeColor => {
   }
 };
 
-const resolveThemeColorCssValue = (color?: ThemeColor): string | undefined => {
-  if (!hasExplicitThemeColor(color)) {
-    return undefined;
-  }
-
-  switch (color.selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    default:
-      return color.selectedColor;
-  }
-};
-
 const resolveBorderRadius = (value?: string): string | undefined => {
   if (!value || value === "default") {
     return undefined;
@@ -308,16 +283,8 @@ const getTextStyles = ({
   >;
 }): React.CSSProperties => {
   return {
-    color: resolveThemeColorCssValue(color),
-    fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-    fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-    fontWeight:
-      styles.fontWeight === "default" ? undefined : styles.fontWeight,
-    fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-    textTransform:
-      styles.textTransform === "default" ? undefined : styles.textTransform,
-    letterSpacing:
-      styles.letterSpacing === "default" ? undefined : styles.letterSpacing,
+    ...getLinkStyle(styles),
+    color: getThemeColorCssValue(color),
   };
 };
 
@@ -514,11 +481,7 @@ const FastCasualHeaderFields: YextFields<FastCasualHeaderProps> = {
                   types: ["type.image"],
                 },
               },
-              aspectRatio: {
-                label: "Aspect Ratio",
-                type: "basicSelector",
-                options: "ASPECT_RATIO",
-              },
+              aspectRatio: createAspectRatioField("Aspect Ratio"),
               imageConstrain: {
                 label: "Image Constrain",
                 type: "select",
@@ -661,11 +624,7 @@ const FastCasualHeaderFields: YextFields<FastCasualHeaderProps> = {
           types: ["type.string"],
         },
       },
-      aspectRatio: {
-        label: "Aspect Ratio",
-        type: "basicSelector",
-        options: "ASPECT_RATIO",
-      },
+      aspectRatio: createAspectRatioField("Aspect Ratio"),
       imageConstrain: {
         label: "Image Constrain",
         type: "select",
@@ -684,90 +643,18 @@ const FastCasualHeaderFields: YextFields<FastCasualHeaderProps> = {
 
 const headerTypographyScopeClass = "yfc-header-typography";
 
-const headerTypographyStyles = `
-  .${headerTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${headerTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${headerTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${headerTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${headerTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${headerTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${headerTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${headerTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${headerTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${headerTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-`;
+const headerTypographyStyles = getScopedTypographyStyles(
+  headerTypographyScopeClass,
+);
 
 const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) => {
   const analytics = useAnalytics();
   const streamDocument = useDocument<StreamDocument>();
   const locale = streamDocument.locale ?? "en";
+  const headerSurfaceStyle = getSurfaceColorStyle(
+    props.section.backgroundColor,
+    streamDocument,
+  );
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const resolvedLogoImage = resolveComponentData(
@@ -939,7 +826,7 @@ const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) 
               aria-label={item.label}
               className="inline-flex h-8 w-8 items-center justify-center rounded-full transition-opacity hover:opacity-80"
               style={{
-                color: resolveThemeColorCssValue(navigationColor),
+                color: getThemeColorCssValue(navigationColor),
               }}
             >
               <span className="flex h-full w-full items-center justify-center">
@@ -1016,7 +903,7 @@ const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) 
             props.logoImage.aspectRatio > 0
               ? `${50 * props.logoImage.aspectRatio}px`
               : "50px",
-          color: resolveThemeColorCssValue(navigationColor),
+          color: getThemeColorCssValue(navigationColor),
         }}
       >
         Logo
@@ -1122,11 +1009,13 @@ const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) 
       liveVisibility={props.section.visibleOnLivePage}
       isEditing={props.puck.isEditing}
     >
-      <header
+      <Background
+        as="header"
+        background={props.section.backgroundColor}
         className={`${headerTypographyScopeClass} relative`}
         style={{
-          backgroundColor: resolveThemeColorCssValue(props.section.backgroundColor),
-          color: resolveThemeColorCssValue(navigationColor),
+          ...headerSurfaceStyle,
+          color: getThemeColorCssValue(navigationColor),
         }}
       >
         <style>{headerTypographyStyles}</style>
@@ -1165,7 +1054,7 @@ const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) 
             aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full"
             style={{
-              color: resolveThemeColorCssValue(navigationColor),
+              color: getThemeColorCssValue(navigationColor),
             }}
           >
             <svg
@@ -1191,9 +1080,7 @@ const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) 
         {menuOpen ? (
           <div
             className="border-t border-current/10 px-6 py-6 md:px-8 lg:hidden"
-            style={{
-              backgroundColor: resolveThemeColorCssValue(props.section.backgroundColor),
-            }}
+            style={headerSurfaceStyle}
           >
             <div className="space-y-6">
               {navigationLinks.length > 0 ? renderNavigationLinks("column") : null}
@@ -1234,7 +1121,7 @@ const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) 
                           aria-label={item.label}
                           className="inline-flex h-8 w-8 items-center justify-center rounded-full transition-opacity hover:opacity-80"
                           style={{
-                            color: resolveThemeColorCssValue(navigationColor),
+                            color: getThemeColorCssValue(navigationColor),
                           }}
                         >
                           <span className="flex h-full w-full items-center justify-center">
@@ -1252,7 +1139,7 @@ const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) 
             </div>
           </div>
         ) : null}
-      </header>
+      </Background>
     </VisibilityWrapper>
   );
 };

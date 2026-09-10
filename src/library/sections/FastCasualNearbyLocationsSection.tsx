@@ -1,4 +1,11 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  getScopedTypographyStyles,
+  getTextStyle,
+  getLinkStyle,
+  getThemeColorCssValue,
+  resolveTextColor,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
@@ -227,77 +234,6 @@ const NearbyFields: YextFields<NearbyLocationsProps> = {
   },
 };
 
-const textStylesToCss = (styles: StyledTextValue) => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-});
-
-const linkStylesToCss = (
-  styles: Pick<
-    StyledLinkValue,
-    | "fontFamily"
-    | "fontSize"
-    | "fontWeight"
-    | "fontStyle"
-    | "textTransform"
-    | "letterSpacing"
-  >,
-) => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-  letterSpacing:
-    styles.letterSpacing === "default" ? undefined : styles.letterSpacing,
-});
-
-const colorValueToCss = (color?: ThemeColor | string) => {
-  if (!color) {
-    return undefined;
-  }
-
-  const selectedColor = typeof color === "string" ? color : color.selectedColor;
-
-  if (selectedColor.startsWith("[") && selectedColor.endsWith("]")) {
-    return selectedColor.slice(1, -1);
-  }
-
-  switch (selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "white":
-      return "#FFFFFF";
-    default:
-      return selectedColor;
-  }
-};
-
-const themeColorToCss = (color?: ThemeColor | string) => colorValueToCss(color);
-
 const defaultTextStyles: StyledTextValue = {
   fontFamily: "default",
   fontSize: "default",
@@ -318,96 +254,17 @@ const defaultLinkStyles: StyledLinkValue = {
 
 const nearbyTypographyScopeClass = "yfc-nearby-typography";
 
-const nearbyTypographyStyles = `
-  .${nearbyTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${nearbyTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${nearbyTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${nearbyTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${nearbyTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${nearbyTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${nearbyTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${nearbyTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${nearbyTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${nearbyTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-  .${nearbyTypographyScopeClass} a.yfc-nearby-directions {
-    text-decoration: underline;
-  }
-  .${nearbyTypographyScopeClass} a.yfc-nearby-directions:hover {
-    text-decoration: none;
-  }
-`;
-
-const resolveTextColor = (
-  fontColor: ThemeColor | undefined,
-  fallbackColor: ThemeColor | string,
-) => themeColorToCss(fontColor) ?? colorValueToCss(fallbackColor);
+const nearbyTypographyStyles = getScopedTypographyStyles(
+  nearbyTypographyScopeClass,
+  `
+    .${nearbyTypographyScopeClass} a.yfc-nearby-directions {
+      text-decoration: underline;
+    }
+    .${nearbyTypographyScopeClass} a.yfc-nearby-directions:hover {
+      text-decoration: none;
+    }
+  `,
+);
 
 const toMiles = (from?: Coordinate, to?: Coordinate) => {
   if (!from || !to) {
@@ -465,9 +322,9 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
   const scopeName = `YextFastCasualNearbyLocationsSection${getAnalyticsScopeHash(props.id)}`;
   const headingText =
     resolveComponentData(props.heading.text, locale, streamDocument) || "";
-  const sectionBackground = themeColorToCss(props.section.backgroundColor);
+  const sectionBackground = getThemeColorCssValue(props.section.backgroundColor);
   const sectionForeground =
-    themeColorToCss(props.section.backgroundColor.contrastingColor) ??
+    getThemeColorCssValue(props.section.backgroundColor.contrastingColor) ??
     "#000000";
 
   if (!enabled) {
@@ -558,7 +415,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
               <h2
                 className="mb-6 text-left text-[34px] font-bold leading-none md:text-[44px] lg:text-center"
                 style={{
-                  ...textStylesToCss(props.heading.styles),
+                  ...getTextStyle(props.heading.styles),
                   color: resolveTextColor(
                     props.heading.fontColor,
                     sectionForeground,
@@ -615,7 +472,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                           <p
                             className="block text-[22px] font-bold leading-tight text-current"
                             style={{
-                              ...textStylesToCss(
+                              ...getTextStyle(
                                 props.nearbyLocationName.styles,
                               ),
                               color: resolveTextColor(
@@ -636,7 +493,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                             <div
                               className="mt-1 text-[14px] leading-6 text-current"
                               style={{
-                                ...textStylesToCss(props.nearbyAddress.styles),
+                                ...getTextStyle(props.nearbyAddress.styles),
                                 color: resolveTextColor(
                                   props.nearbyAddress.fontColor,
                                   sectionForeground,
@@ -660,7 +517,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                             <p
                               className="text-[14px] leading-6 text-current"
                               style={{
-                                ...textStylesToCss(props.nearbyPhone.styles),
+                                ...getTextStyle(props.nearbyPhone.styles),
                                 color: resolveTextColor(
                                   props.nearbyPhone.fontColor,
                                   sectionForeground,
@@ -675,7 +532,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                           <p
                             className="text-[13px] leading-6 text-current"
                             style={{
-                              ...textStylesToCss(props.nearbyDistance.styles),
+                              ...getTextStyle(props.nearbyDistance.styles),
                               color: resolveTextColor(
                                 props.nearbyDistance.fontColor,
                                 sectionForeground,
@@ -692,7 +549,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                           rel="noopener noreferrer"
                           className="yfc-nearby-directions mt-1 inline-flex text-[13px] font-medium text-current underline-offset-4"
                           style={{
-                            ...linkStylesToCss(props.getDirectionsLink.styles),
+                            ...getLinkStyle(props.getDirectionsLink.styles),
                             color: resolveTextColor(
                               props.getDirectionsLink.fontColor,
                               sectionForeground,

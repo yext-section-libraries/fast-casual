@@ -1,4 +1,8 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  getTextStyle,
+  getThemeColorCssValue,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
@@ -83,33 +87,6 @@ const fields: YextFields<BreadcrumbsProps> = {
   },
 };
 
-const getThemeColorCssValue = (color?: ThemeColor): string | undefined => {
-  switch (color?.selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color?.selectedColor;
-  }
-};
-
 /** Renders directory breadcrumbs using the current location's resolved hierarchy. */
 const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
   const streamDocument = useDocument();
@@ -129,27 +106,8 @@ const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
       contrastingColor: props.section.backgroundColor.selectedColor,
     });
   const textStyle: React.CSSProperties = {
+    ...getTextStyle(props.rootLabel.styles),
     color: textColor,
-    fontFamily:
-      props.rootLabel.styles.fontFamily === "default"
-        ? undefined
-        : props.rootLabel.styles.fontFamily,
-    fontSize:
-      props.rootLabel.styles.fontSize === "default"
-        ? undefined
-        : props.rootLabel.styles.fontSize,
-    fontWeight:
-      props.rootLabel.styles.fontWeight === "default"
-        ? undefined
-        : props.rootLabel.styles.fontWeight,
-    fontStyle:
-      props.rootLabel.styles.fontStyle === "default"
-        ? undefined
-        : props.rootLabel.styles.fontStyle,
-    textTransform:
-      props.rootLabel.styles.textTransform === "default"
-        ? undefined
-        : props.rootLabel.styles.textTransform,
   };
 
   if (!breadcrumbs.length) {

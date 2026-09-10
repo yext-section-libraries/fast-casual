@@ -1,4 +1,10 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  createAspectRatioField,
+  getScopedTypographyStyles,
+  getTextStyle,
+  getThemeColorCssValue,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
@@ -115,48 +121,6 @@ const makeTextStyles = (): StyledTextValue => ({
   fontStyle: "default",
   textTransform: "default",
 });
-
-const colorValueToCss = (color?: string) => {
-  if (!color) {
-    return undefined;
-  }
-
-  if (color.startsWith("[") && color.endsWith("]")) {
-    return color.slice(1, -1);
-  }
-
-  switch (color) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color;
-  }
-};
-
-const themeColorToCss = (color?: ThemeColor) =>
-  colorValueToCss(color?.selectedColor);
 
 const defaultCtaButtonStyles = {
   fontFamily: "default",
@@ -281,11 +245,9 @@ const FooterFields: YextFields<FooterProps> = {
         label: "Image",
         filter: { types: ["type.image"] },
       },
-      aspectRatio: {
-        type: "basicSelector",
-        label: msg("fields.options.aspectRatio", "Aspect Ratio"),
-        options: "ASPECT_RATIO",
-      },
+      aspectRatio: createAspectRatioField(
+        msg("fields.options.aspectRatio", "Aspect Ratio"),
+      ),
       imageConstrain: {
         label: "Image Constrain",
         type: "select",
@@ -388,15 +350,6 @@ const FooterFields: YextFields<FooterProps> = {
   },
 };
 
-const textStylesToCss = (styles: StyledTextValue) => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-});
-
 const isResolvedImage = (value: unknown): value is TranslatableAssetImage => {
   return (
     typeof value === "object" &&
@@ -423,7 +376,7 @@ const toRenderableCTA = (
 ): Omit<Partial<ComprehensiveCTAValue>, "sx"> => ({
   data: cta.data,
   styles: {
-    ...(cta.styles ?? {}),
+    ...cta.styles,
     variant: cta.styles?.variant ?? "link",
     color: cta.styles?.color ?? defaultColor,
   },
@@ -432,85 +385,9 @@ const toRenderableCTA = (
 
 const footerTypographyScopeClass = "yfc-footer-typography";
 
-const footerTypographyStyles = `
-  .${footerTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${footerTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${footerTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${footerTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${footerTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${footerTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${footerTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${footerTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${footerTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${footerTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-`;
+const footerTypographyStyles = getScopedTypographyStyles(
+  footerTypographyScopeClass,
+);
 
 const FooterComponent: PuckComponent<FooterProps> = (props) => {
   const streamDocument = useDocument();
@@ -589,8 +466,8 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
                   <p
                     className="text-[24px] font-bold"
                     style={{
-                      ...textStylesToCss(props.brandName.styles),
-                      color: themeColorToCss(props.brandName.fontColor) ?? sectionForeground,
+                      ...getTextStyle(props.brandName.styles),
+                      color: getThemeColorCssValue(props.brandName.fontColor) ?? sectionForeground,
                     }}
                   >
                       {brandName}
@@ -607,9 +484,9 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
                   <p
                     className="text-[12px] text-white/70"
                     style={{
-                      ...textStylesToCss(props.copyright.styles),
+                      ...getTextStyle(props.copyright.styles),
                       color:
-                        themeColorToCss(props.copyright.fontColor) ??
+                        getThemeColorCssValue(props.copyright.fontColor) ??
                         sectionForeground,
                     }}
                   >

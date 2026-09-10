@@ -1,4 +1,9 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import {
+  getScopedTypographyStyles,
+  getTextStyle,
+  resolveTextColor,
+} from "../shared/styleHelpers";
 
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
@@ -9,7 +14,7 @@ import {
   type ComprehensiveCTAValue,
   getAnalyticsScopeHash,
   Image,
-  MaybeRTF,
+  StyledTextComponent,
   StyledTextValue,
   ThemeColor,
   TranslatableAssetImage,
@@ -23,6 +28,7 @@ import {
   useDocument,
   BackgroundProvider,
   getDefaultForegroundColor,
+  getSurfaceColorStyle,
   isDarkColor,
 } from "@yext/visual-editor";
 
@@ -130,61 +136,6 @@ const EventsFields: YextFields<EventsProps> = {
   },
 };
 
-const textStylesToCss = (styles: StyledTextValue) => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-});
-
-const colorValueToCss = (color?: ThemeColor | string) => {
-  if (!color) {
-    return undefined;
-  }
-
-  const selectedColor = typeof color === "string" ? color : color.selectedColor;
-
-  if (selectedColor.startsWith("[") && selectedColor.endsWith("]")) {
-    return selectedColor.slice(1, -1);
-  }
-
-  switch (selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "white":
-      return "#FFFFFF";
-    default:
-      return selectedColor;
-  }
-};
-
-const themeColorToCss = (color?: ThemeColor | string) => colorValueToCss(color);
-
-const resolveTextColor = (
-  fontColor: ThemeColor | undefined,
-  fallbackColor: ThemeColor | string,
-) => themeColorToCss(fontColor) ?? colorValueToCss(fallbackColor);
-
 const makeTextStyles = (): StyledTextValue => ({
   fontFamily: "default",
   fontSize: "default",
@@ -214,96 +165,26 @@ const makeCta = (): ComprehensiveCTAValue => ({
 
 const eventsTypographyScopeClass = "yfc-events-typography";
 
-const eventsTypographyStyles = `
-  .${eventsTypographyScopeClass} p {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${eventsTypographyScopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  .${eventsTypographyScopeClass} h1 {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-  .${eventsTypographyScopeClass} h2 {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-  .${eventsTypographyScopeClass} h3 {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-  .${eventsTypographyScopeClass} h4 {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-  .${eventsTypographyScopeClass} h5 {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-  .${eventsTypographyScopeClass} h6 {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-  .${eventsTypographyScopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${eventsTypographyScopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-`;
+const eventsTypographyStyles = getScopedTypographyStyles(
+  eventsTypographyScopeClass,
+);
 
 const EventsComponent: PuckComponent<EventsProps> = (props) => {
   const streamDocument = useDocument();
   const locale = streamDocument.locale ?? "en";
-  const sectionBackground = themeColorToCss(props.section.backgroundColor);
+  const sectionStyle = getSurfaceColorStyle(
+    props.section.backgroundColor,
+    streamDocument,
+  );
   const sectionForeground = getDefaultForegroundColor(
     props.overlayBackgroundColor,
     streamDocument,
   );
-  const overlayBackgroundColor =
-    themeColorToCss(props.overlayBackgroundColor) ?? "#000000";
+  const overlayStyle = getSurfaceColorStyle(
+    props.overlayBackgroundColor,
+    streamDocument,
+    { fallbackBackgroundColor: "#000000" },
+  );
   const resolvedImage = resolveComponentData(
     props.backgroundImage.image,
     locale,
@@ -311,18 +192,6 @@ const EventsComponent: PuckComponent<EventsProps> = (props) => {
   );
   const headingText =
     resolveComponentData(props.heading.text, locale, streamDocument) || "";
-  const description = resolveComponentData(
-    props.description.text,
-    locale,
-    streamDocument,
-    {
-      richTextStyleOverrides: {
-        ...textStylesToCss(props.description.styles),
-        color:
-          themeColorToCss(props.description.fontColor) ?? sectionForeground,
-      },
-    },
-  );
   const scopeName = `YextFastCasualEventsSection${getAnalyticsScopeHash(props.id)}`;
 
   return (
@@ -333,10 +202,7 @@ const EventsComponent: PuckComponent<EventsProps> = (props) => {
       <AnalyticsScopeProvider name={scopeName}>
         <section
           className={`${eventsTypographyScopeClass} relative isolate overflow-hidden px-0 py-8 lg:px-8`}
-          style={{
-            backgroundColor: sectionBackground,
-            color: themeColorToCss(sectionForeground),
-          }}
+          style={sectionStyle}
         >
           <style>{eventsTypographyStyles}</style>
           {resolvedImage ? (
@@ -357,7 +223,7 @@ const EventsComponent: PuckComponent<EventsProps> = (props) => {
           ) : null}
           <div
             className="absolute inset-y-8 left-0 w-full lg:left-1/2 lg:w-[calc(100%-4rem)] lg:max-w-[1440px] lg:-translate-x-1/2 lg:rounded-[14px]"
-            style={{ backgroundColor: overlayBackgroundColor, opacity: 0.55 }}
+            style={{ ...overlayStyle, opacity: 0.55 }}
           />
           <div className="relative mx-auto flex min-h-[420px] max-w-[900px] flex-col items-start justify-center px-6 py-10 text-left md:px-8 lg:items-center lg:text-center">
             <EntityField
@@ -368,7 +234,7 @@ const EventsComponent: PuckComponent<EventsProps> = (props) => {
               <h2
                 className="mb-4 text-[36px] font-bold leading-[1.05] md:text-[50px]"
                 style={{
-                  ...textStylesToCss(props.heading.styles),
+                  ...getTextStyle(props.heading.styles),
                   color: resolveTextColor(
                     props.heading.fontColor,
                     sectionForeground ?? "white",
@@ -378,27 +244,16 @@ const EventsComponent: PuckComponent<EventsProps> = (props) => {
                 {headingText}
               </h2>
             </EntityField>
-            <EntityField
-              displayName="Description"
-              fieldId={props.description.text.field}
-              constantValueEnabled={props.description.text.constantValueEnabled}
-            >
-              {React.isValidElement(description) ? (
-                description
-              ) : (
-                <MaybeRTF
-                  data={description as string | undefined}
-                  richTextStyleOverrides={{
-                    ...textStylesToCss(props.description.styles),
-                    color: resolveTextColor(
-                      props.description.fontColor,
-                      sectionForeground ?? "white",
-                    ),
-                  }}
-                  className="max-w-[620px] text-[15px] leading-6 md:text-[16px]"
-                />
-              )}
-            </EntityField>
+            <div className="max-w-[620px] text-[15px] leading-6 md:text-[16px]">
+              <StyledTextComponent
+                data={{ text: props.description.text }}
+                fontOptions={{
+                  ...props.description.styles,
+                  color: props.description.fontColor ?? sectionForeground,
+                }}
+                kind="richText"
+              />
+            </div>
             <div className="pt-[30px]">
               <BackgroundProvider
                 value={{
