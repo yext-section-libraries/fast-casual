@@ -1,5 +1,5 @@
 import type { SectionConfig } from "@yext/visual-editor";
-
+import { msg, pt } from "@yext/visual-editor";
 import { PuckComponent } from "@puckeditor/core";
 import { CircleSlash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -55,57 +55,57 @@ const isRichTextEmpty = (value: unknown): boolean => {
 
 const FastCasualBannerFields: YextFields<FastCasualBannerProps> = {
   data: {
-    label: "Banner Text",
+    label: msg("fields.bannerText", "Banner Text"),
     type: "object",
     objectFields: {
       text: {
-        label: "Text",
+        label: msg("fields.text", "Text"),
         type: "entityField",
         filter: {
           types: ["type.rich_text_v2"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Text Color",
+        label: msg("fields.textColor", "Text Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   styles: {
-    label: "Styles",
+    label: msg("fields.styles", "Styles"),
     type: "object",
     objectFields: {
       textAlignment: {
-        label: "Text Alignment",
+        label: msg("fields.textAlignment", "Text Alignment"),
         type: "radio",
         options: [
-          { label: "Left", value: "left" },
-          { label: "Center", value: "center" },
-          { label: "Right", value: "right" },
+          { label: msg("fields.options.left", "Left"), value: "left" },
+          { label: msg("fields.options.center", "Center"), value: "center" },
+          { label: msg("fields.options.right", "Right"), value: "right" },
         ],
       },
     },
   },
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
@@ -147,10 +147,10 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
           <CircleSlash2 className="h-10 w-10 flex-shrink-0 text-gray-400" />
           <div className="flex flex-col items-start">
             <Body className="font-medium text-gray-500" variant="sm">
-              Section hidden for this page
+              {pt("sectionHiddenForThisPage", "Section hidden for this page")}
             </Body>
             <Body className="font-normal text-gray-500" variant="sm">
-              The mapped banner field is empty
+              {pt("mappedBannerFieldEmpty", "The mapped banner field is empty")}
             </Body>
           </div>
         </div>
@@ -168,21 +168,17 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
           right: "justify-end text-right",
         }[styles.textAlignment]
       }`}
-      outerStyle={getSurfaceColorStyle(
-        section.backgroundColor,
-        streamDocument,
-      )}
+      outerStyle={getSurfaceColorStyle(section.backgroundColor, streamDocument)}
       verticalPadding="sm"
     >
       <StyledTextComponent
         data={{ text: data.text }}
         fontOptions={{
           ...data.styles,
-          color:
-            data.fontColor ?? {
-              selectedColor: section.backgroundColor.contrastingColor,
-              contrastingColor: section.backgroundColor.selectedColor,
-            },
+          color: data.fontColor ?? {
+            selectedColor: section.backgroundColor.contrastingColor,
+            contrastingColor: section.backgroundColor.selectedColor,
+          },
         }}
         kind="richText"
       />
@@ -194,7 +190,7 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
  * Displays a full-width, editor-configurable rich-text banner.
  */
 export const FastCasualBanner: YextComponentConfig<FastCasualBannerProps> = {
-  label: "Banner",
+  label: msg("components.banner", "Banner"),
   fields: FastCasualBannerFields,
   defaultProps: {
     data: {

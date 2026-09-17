@@ -1,4 +1,5 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import { msg, pt } from "@yext/visual-editor";
 import {
   getScopedTypographyStyles,
   getTextStyle,
@@ -8,6 +9,7 @@ import {
 } from "../shared/styleHelpers";
 
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import type { PuckComponent } from "@puckeditor/core";
 import {
   AnalyticsScopeProvider,
@@ -85,147 +87,147 @@ type NearbyLocationsProps = {
 
 const NearbyFields: YextFields<NearbyLocationsProps> = {
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   heading: {
-    label: "Heading",
+    label: msg("fields.heading", "Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: { types: ["type.string"] },
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   nearbyLocationName: {
-    label: "Nearby Location Name",
+    label: msg("fields.nearbyLocationName", "Nearby Location Name"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Text Color",
+        label: msg("fields.textColor", "Text Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   nearbyAddress: {
-    label: "Nearby Address",
+    label: msg("fields.nearbyAddress", "Nearby Address"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Text Color",
+        label: msg("fields.textColor", "Text Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   nearbyPhone: {
-    label: "Nearby Phone",
+    label: msg("fields.nearbyPhone", "Nearby Phone"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Text Color",
+        label: msg("fields.textColor", "Text Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   nearbyDistance: {
-    label: "Nearby Distance",
+    label: msg("fields.nearbyDistance", "Nearby Distance"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Text Color",
+        label: msg("fields.textColor", "Text Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   getDirectionsLink: {
-    label: "Get Directions Link",
+    label: msg("fields.getDirectionsLink", "Get Directions Link"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Text Color",
+        label: msg("fields.textColor", "Text Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Link Styles",
+        label: msg("fields.linkStyles", "Link Styles"),
         type: "styledLink",
       },
     },
   },
   radius: {
-    label: "Radius",
+    label: msg("fields.radius", "Radius"),
     type: "number",
   },
   limit: {
-    label: "Limit",
+    label: msg("fields.limit", "Limit"),
     type: "number",
   },
   map: {
-    label: "Map",
+    label: msg("fields.map", "Map"),
     type: "object",
     objectFields: {
       apiKey: {
         type: "text",
-        label: "Mapbox API Key",
+        label: msg("fields.mapboxApiKey", "Mapbox API Key"),
       },
       coordinate: {
         type: "entityField",
-        label: "Coordinates",
+        label: msg("fields.coordinates", "Coordinates"),
         filter: { types: ["type.coordinate"] },
       },
       mapStyle: {
-        label: "Mapbox Map Style",
+        label: msg("fields.mapboxMapStyle", "Mapbox Map Style"),
         type: "select",
         options: mapboxStaticMapStyleOptions,
       },
       zoom: {
-        label: "Zoom",
+        label: msg("fields.zoom", "Zoom"),
         type: "number",
         min: 0,
         max: 22,
@@ -294,6 +296,7 @@ const isCoordinate = (value: unknown): value is Coordinate => {
 };
 
 const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
+  const { t } = useTranslation();
   const streamDocument = useDocument<StreamDocument>();
   const { relativePrefixToRoot } = useTemplateProps<{
     relativePrefixToRoot?: string;
@@ -352,7 +355,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
             </h2>
           </EntityField>
           <p className="text-center text-sm text-neutral-500">
-            Loading nearby locations
+            {t("loadingNearbyLocations", "Loading nearby locations")}
           </p>
         </div>
       </section>
@@ -374,7 +377,10 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
       >
         <style>{nearbyTypographyStyles}</style>
         <div className="mx-auto max-w-[1440px] text-center text-sm">
-          No nearby locations found for this location
+          {pt(
+            "noNearbyLocationsFoundForThisLocation",
+            "No nearby locations found for this location",
+          )}
         </div>
       </section>
     );
@@ -539,7 +545,11 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                               ),
                             }}
                           >
-                            Located {miles} miles from our current location
+                            {t("locatedMilesFromCurrentLocation", {
+                              defaultValue:
+                                "Located {{miles}} miles from our current location",
+                              miles,
+                            })}
                           </p>
                         ) : null}
                         <Link
@@ -556,7 +566,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                             ),
                           }}
                         >
-                          Get Directions
+                          {t("getDirections", "Get Directions")}
                         </Link>
                       </article>
                     );
@@ -572,7 +582,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
 
 export const FastCasualNearbyLocationsSection: YextComponentConfig<NearbyLocationsProps> =
   {
-    label: "Nearby Locations Section",
+    label: msg("components.nearbyLocationsSection", "Nearby Locations Section"),
     fields: NearbyFields,
     defaultProps: {
       section: {

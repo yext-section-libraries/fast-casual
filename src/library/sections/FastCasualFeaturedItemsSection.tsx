@@ -1,4 +1,5 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import { msg } from "@yext/visual-editor";
 import {
   getScopedTypographyStyles,
   getRichTextValue,
@@ -43,25 +44,25 @@ type FeaturedItem = {
 };
 
 const featuredItemsSource = createItemSource<FeaturedItem>({
-  label: "Featured Items",
+  label: msg("fields.featuredItems", "Featured Items"),
   mappingFields: {
     title: {
-      label: "Title",
+      label: msg("fields.title", "Title"),
       type: "entityField",
       filter: { types: ["type.string"] },
     },
     description: {
-      label: "Description",
+      label: msg("fields.description", "Description"),
       type: "entityField",
       filter: { types: ["type.rich_text_v2"] },
     },
     image: {
-      label: "Image",
+      label: msg("fields.image", "Image"),
       type: "entityField",
       filter: { types: ["type.image"] },
     },
     cta: {
-      label: "Call to Action",
+      label: msg("fields.callToAction", "Call to Action"),
       type: "entityField",
       filter: { types: ["type.cta"] },
     },
@@ -206,106 +207,106 @@ type FeaturedProps = {
 
 const FeaturedFields: YextFields<FeaturedProps> = {
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
     },
   },
   heading: {
-    label: "Heading",
+    label: msg("fields.heading", "Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: { types: ["type.string"] },
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   items: featuredItemsSource.field,
   title: {
-    label: "Title",
+    label: msg("fields.title", "Title"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   description: {
-    label: "Description",
+    label: msg("fields.description", "Description"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   image: {
-    label: "Image",
+    label: msg("fields.image", "Image"),
     type: "object",
     objectFields: {
       styles: {
-        label: "Image Styles",
+        label: msg("fields.imageStyles", "Image Styles"),
         type: "styledImage",
       },
     },
   },
   cardBackgroundColor: {
-    label: "Card Background Color",
+    label: msg("fields.cardBackgroundColor", "Card Background Color"),
     type: "basicSelector",
     options: "BACKGROUND_COLOR",
   },
   cta: {
-    label: "Card Call to Action",
+    label: msg("fields.cardCallToAction", "Card Call to Action"),
     type: "object",
     objectFields: {
       variant: {
-        label: "Variant",
+        label: msg("fields.variant", "Variant"),
         type: "select",
         options: [
-          { label: "Primary", value: "primary" },
-          { label: "Secondary", value: "secondary" },
-          { label: "Outline", value: "outline" },
-          { label: "Link", value: "link" },
+          { label: msg("fields.options.primary", "Primary"), value: "primary" },
+          { label: msg("fields.options.secondary", "Secondary"), value: "secondary" },
+          { label: msg("fields.options.outline", "Outline"), value: "outline" },
+          { label: msg("fields.options.link", "Link"), value: "link" },
         ],
       },
       color: {
-        label: "Color",
+        label: msg("fields.color", "Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
@@ -529,7 +530,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
 
 export const FastCasualFeaturedItemsSection: YextComponentConfig<FeaturedProps> =
   {
-    label: "Featured Items Section",
+    label: msg("components.featuredItemsSection", "Featured Items Section"),
     fields: FeaturedFields,
     defaultProps: {
       section: {
