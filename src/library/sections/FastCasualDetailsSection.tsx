@@ -1,4 +1,5 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import { msg } from "@yext/visual-editor";
 import {
   getScopedTypographyStyles,
   getTextStyle,
@@ -6,6 +7,7 @@ import {
 } from "../shared/styleHelpers";
 
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { parsePhoneNumber } from "awesome-phonenumber";
 import type { PuckComponent } from "@puckeditor/core";
 import {
@@ -28,7 +30,7 @@ import {
   YextComponentConfig,
   YextEntityField,
   YextFields,
-  i18nComponentsInstance,
+  i18nPageInstance,
   getAnalyticsScopeHash,
   resolveComponentData,
   useDocument,
@@ -103,7 +105,7 @@ const getEditableSummary = (value: unknown, fallback: string): string => {
 
   const resolvedValue = resolveComponentData(
     value as TranslatableString,
-    i18nComponentsInstance.language,
+    i18nPageInstance.language,
     undefined,
   );
   if (typeof resolvedValue === "string") {
@@ -185,96 +187,96 @@ const formatPhone = (
 
 const DetailsFields: YextFields<DetailsProps> = {
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   panelBackgroundColor: {
-    label: "Panel Background Color",
+    label: msg("fields.panelBackgroundColor", "Panel Background Color"),
     type: "basicSelector",
     options: "BACKGROUND_COLOR",
   },
   image: {
-    label: "Details Image",
+    label: msg("fields.detailsImage", "Details Image"),
     type: "object",
     objectFields: {
       image: {
         type: "entityField",
-        label: "Image",
+        label: msg("fields.image", "Image"),
         filter: { types: ["type.image"] },
       },
     },
   },
   heading: {
-    label: "Heading",
+    label: msg("fields.heading", "Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: { types: ["type.string"] },
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   address: {
     type: "entityField",
-    label: "Address",
+    label: msg("fields.address", "Address"),
     filter: { types: ["type.address"] },
   },
   showRegion: {
-    label: "Show Region",
+    label: msg("fields.showRegion", "Show Region"),
     type: "radio",
     options: [
-      { label: "Yes", value: true },
-      { label: "No", value: false },
+      { label: msg("fields.options.yes", "Yes"), value: true },
+      { label: msg("fields.options.no", "No"), value: false },
     ],
   },
   showCountry: {
-    label: "Show Country",
+    label: msg("fields.showCountry", "Show Country"),
     type: "radio",
     options: [
-      { label: "Yes", value: true },
-      { label: "No", value: false },
+      { label: msg("fields.options.yes", "Yes"), value: true },
+      { label: msg("fields.options.no", "No"), value: false },
     ],
   },
   phones: {
-    label: "Phones",
+    label: msg("fields.phones", "Phones"),
     type: "object",
     objectFields: {
       items: {
-        label: "Items",
+        label: msg("fields.items", "Items"),
         type: "array",
         arrayFields: {
           number: {
             type: "entityField",
-            label: "Number",
+            label: msg("fields.number", "Number"),
             filter: { types: ["type.phone"] },
           },
           label: {
-            label: "Label",
+            label: msg("fields.label", "Label"),
             type: "text",
           },
         },
@@ -290,29 +292,29 @@ const DetailsFields: YextFields<DetailsProps> = {
           item.label || getEntityFieldSummary(item.number, "Phone"),
       },
       phoneFormat: {
-        label: "Phone Format",
+        label: msg("fields.phoneFormat", "Phone Format"),
         type: "radio",
         options: [
-          { label: "Domestic", value: "domestic" },
-          { label: "International", value: "international" },
+          { label: msg("fields.options.domestic", "Domestic"), value: "domestic" },
+          { label: msg("fields.options.international", "International"), value: "international" },
         ],
       },
       includeHyperlink: {
-        label: "Include Hyperlink",
+        label: msg("fields.includeHyperlink", "Include Hyperlink"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   utilityLinks: {
-    label: "Utility Links",
+    label: msg("fields.utilityLinks", "Utility Links"),
     type: "array",
     arrayFields: {
       cta: {
-        label: "Call to Action",
+        label: msg("fields.callToAction", "Call to Action"),
         type: "comprehensiveCTA",
       },
     },
@@ -322,23 +324,23 @@ const DetailsFields: YextFields<DetailsProps> = {
     getItemSummary: (item) => getCtaSummary(item.cta, "Utility Link"),
   },
   details: {
-    label: "Details",
+    label: msg("fields.details", "Details"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.rich_text_v2"],
         },
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
@@ -352,6 +354,7 @@ const detailsTypographyStyles = getScopedTypographyStyles(
 );
 
 const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
+  const { t } = useTranslation();
   const streamDocument = useDocument();
   const locale = streamDocument.locale ?? "en";
   const sectionStyle = getSurfaceColorStyle(
@@ -490,7 +493,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
               <div className="grid gap-4">
                 <div className="grid gap-1">
                   <p className="text-[12px] font-bold uppercase tracking-[0.08em]">
-                    Address
+                    {t("address", "Address")}
                   </p>
                   {resolvedAddress ? (
                     <EntityField
@@ -508,7 +511,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                 </div>
                 <div className="grid gap-1">
                   <p className="text-[12px] font-bold uppercase tracking-[0.08em]">
-                    Phone
+                    {t("phone", "Phone")}
                   </p>
                   {resolvedPhones.map((phone, index) => (
                     <EntityField
@@ -566,7 +569,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                 </div>
                 <div className="grid gap-1">
                   <p className="text-[12px] font-bold uppercase tracking-[0.08em]">
-                    Other Details
+                    {t("otherDetails", "Other Details")}
                   </p>
                   <StyledTextComponent
                     data={{ text: props.details.text }}
@@ -592,7 +595,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
 };
 
 export const FastCasualDetailsSection: YextComponentConfig<DetailsProps> = {
-  label: "Details Section",
+  label: msg("components.detailsSection", "Details Section"),
   fields: DetailsFields,
   defaultProps: {
     section: {

@@ -1,4 +1,5 @@
 import type { SectionConfig } from "@yext/visual-editor";
+import { msg } from "@yext/visual-editor";
 import {
   getScopedTypographyStyles,
   getTextStyle,
@@ -7,6 +8,7 @@ import {
 } from "../shared/styleHelpers";
 
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import type { PuckComponent } from "@puckeditor/core";
 import { AnalyticsScopeProvider } from "@yext/pages-components";
 import {
@@ -55,75 +57,75 @@ type ReviewsProps = {
 
 const ReviewsFields: YextFields<ReviewsProps> = {
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   cardBackgroundColor: {
-    label: "Card Background Color",
+    label: msg("fields.cardBackgroundColor", "Card Background Color"),
     type: "basicSelector",
     options: "BACKGROUND_COLOR",
   },
   heading: {
-    label: "Heading",
+    label: msg("fields.heading", "Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: { types: ["type.string"] },
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   reviewerName: {
-    label: "Reviewer Name",
+    label: msg("fields.reviewerName", "Reviewer Name"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Text Color",
+        label: msg("fields.textColor", "Text Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   reviewText: {
-    label: "Review Text",
+    label: msg("fields.reviewText", "Review Text"),
     type: "object",
     objectFields: {
       fontColor: {
-        label: "Text Color",
+        label: msg("fields.textColor", "Text Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
@@ -142,6 +144,7 @@ const reviewsTypographyStyles = getScopedTypographyStyles(
 );
 
 const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
+  const { t } = useTranslation();
   const streamDocument = useDocument<{
     locale?: string;
     ref_reviewsAgg?: { publisher?: string; topReviews?: Review[] }[];
@@ -175,7 +178,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
         <section className={`${reviewsTypographyScopeClass} px-6 py-8 md:px-8`}>
           <style>{reviewsTypographyStyles}</style>
           <div className="mx-auto max-w-[1440px] rounded-[14px] border border-dashed border-neutral-300 p-6 text-center text-neutral-500">
-            No first-party reviews
+            {t("noFirstPartyReviews", "No first-party reviews")}
           </div>
         </section>
       </VisibilityWrapper>
@@ -221,8 +224,14 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                 constantValueEnabled={false}
               >
                 <p className="text-[14px]" style={{ color: sectionForeground }}>
-                  {averageRating?.toFixed(1)} average rating from {reviewCount}{" "}
-                  reviews
+                  {t("averageRatingFromReviews", {
+                    averageRating: averageRating?.toFixed(1),
+                    count: reviewCount,
+                    defaultValue_one:
+                      "{{averageRating}} average rating from {{count}} review",
+                    defaultValue_other:
+                      "{{averageRating}} average rating from {{count}} reviews",
+                  })}
                 </p>
               </EntityField>
             </div>
@@ -253,11 +262,16 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                         ),
                       }}
                     >
-                      {review.authorName || "Anonymous"}
+                      {review.authorName || t("anonymous", "Anonymous")}
                     </h3>
                     <div className="mb-3 flex flex-wrap items-center gap-2 text-[12px] font-semibold text-current">
                       <span>
-                        {(review.rating ?? averageRating ?? 0).toFixed(1)} Stars
+                        {t("ratingInStars", {
+                          defaultValue: "{{rating}} Stars",
+                          rating: (review.rating ?? averageRating ?? 0).toFixed(
+                            1,
+                          ),
+                        })}
                       </span>
                       <span>
                         {renderStarRating(review.rating ?? averageRating ?? 0)}
@@ -295,7 +309,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
 };
 
 export const FastCasualReviewsSection: YextComponentConfig<ReviewsProps> = {
-  label: "Reviews Section",
+  label: msg("components.reviewsSection", "Reviews Section"),
   fields: ReviewsFields,
   defaultProps: {
     section: {

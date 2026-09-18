@@ -7,6 +7,7 @@ import {
 } from "../shared/styleHelpers";
 
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import type { PuckComponent } from "@puckeditor/core";
 import { AnalyticsScopeProvider } from "@yext/pages-components";
 import {
@@ -22,7 +23,7 @@ import {
   YextComponentConfig,
   YextEntityField,
   YextFields,
-  i18nComponentsInstance,
+  i18nPageInstance,
   msg,
   resolveComponentData,
   useDocument,
@@ -81,7 +82,7 @@ const getEditableSummary = (value: unknown, fallback: string): string => {
 
   const resolvedValue = resolveComponentData(
     value as TranslatableString,
-    i18nComponentsInstance.language,
+    i18nPageInstance.language,
     undefined,
   );
   if (typeof resolvedValue === "string") {
@@ -218,92 +219,92 @@ const makeBadgeCta = (
 
 const FooterFields: YextFields<FooterProps> = {
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   logoImage: {
-    label: "Logo Image",
+    label: msg("fields.logoImage", "Logo Image"),
     type: "object",
     objectFields: {
       image: {
         type: "entityField",
-        label: "Image",
+        label: msg("fields.image", "Image"),
         filter: { types: ["type.image"] },
       },
       aspectRatio: createAspectRatioField(
         msg("fields.options.aspectRatio", "Aspect Ratio"),
       ),
       imageConstrain: {
-        label: "Image Constrain",
+        label: msg("fields.imageConstrain", "Image Constrain"),
         type: "select",
         options: [
-          { label: "Fixed", value: "fixed" },
-          { label: "Filled", value: "filled" },
+          { label: msg("fields.options.fixed", "Fixed"), value: "fixed" },
+          { label: msg("fields.options.filled", "Filled"), value: "filled" },
         ],
       },
     },
   },
   brandName: {
-    label: "Brand Name",
+    label: msg("fields.brandName", "Brand Name"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: { types: ["type.string"] },
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   copyright: {
-    label: "Copyright",
+    label: msg("fields.copyright", "Copyright"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: { types: ["type.string"] },
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
     },
   },
   quickLinks: {
-    label: "Quick Links",
+    label: msg("fields.quickLinks", "Quick Links"),
     type: "array",
     arrayFields: {
       cta: {
-        label: "Call to Action",
+        label: msg("fields.callToAction", "Call to Action"),
         type: "comprehensiveCTA",
       },
     },
@@ -313,11 +314,11 @@ const FooterFields: YextFields<FooterProps> = {
     getItemSummary: (item) => getCtaSummary(item.cta, "Quick Link"),
   },
   socialLinks: {
-    label: "Social Links",
+    label: msg("fields.socialLinks", "Social Links"),
     type: "array",
     arrayFields: {
       cta: {
-        label: "Call to Action",
+        label: msg("fields.callToAction", "Call to Action"),
         type: "comprehensiveCTA",
       },
     },
@@ -327,11 +328,11 @@ const FooterFields: YextFields<FooterProps> = {
     getItemSummary: (item) => getCtaSummary(item.cta, "Social Link"),
   },
   legalLinks: {
-    label: "Legal Links",
+    label: msg("fields.legalLinks", "Legal Links"),
     type: "array",
     arrayFields: {
       cta: {
-        label: "Call to Action",
+        label: msg("fields.callToAction", "Call to Action"),
         type: "comprehensiveCTA",
       },
     },
@@ -341,11 +342,11 @@ const FooterFields: YextFields<FooterProps> = {
     getItemSummary: (item) => getCtaSummary(item.cta, "Legal Link"),
   },
   appStoreCta: {
-    label: "App Store CTA",
+    label: msg("fields.appStoreCta", "App Store CTA"),
     type: "comprehensiveCTA",
   },
   playStoreCta: {
-    label: "Play Store CTA",
+    label: msg("fields.playStoreCta", "Play Store CTA"),
     type: "comprehensiveCTA",
   },
 };
@@ -390,6 +391,7 @@ const footerTypographyStyles = getScopedTypographyStyles(
 );
 
 const FooterComponent: PuckComponent<FooterProps> = (props) => {
+  const { t } = useTranslation();
   const streamDocument = useDocument();
   const locale = streamDocument.locale ?? "en";
   const scopeName = `YextFastCasualFooter${getAnalyticsScopeHash(props.id)}`;
@@ -499,7 +501,7 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
                   className="mb-4 text-[14px] font-semibold"
                   style={{ color: sectionForeground }}
                 >
-                  Quick Links
+                  {t("quickLinks", "Quick Links")}
                 </p>
                 <div className="grid gap-3 text-[13px] md:grid-cols-3">
                   {[0, 1, 2].map((column) => (
@@ -533,7 +535,7 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
                   className="mb-4 text-[14px] font-semibold"
                   style={{ color: sectionForeground }}
                 >
-                  Social Media
+                  {t("socialMedia", "Social Media")}
                 </p>
                 <div className="grid gap-2 text-[13px]">
                   {(props.socialLinks ?? []).map((link, index) => (
@@ -611,7 +613,7 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
 };
 
 export const FastCasualFooter: YextComponentConfig<FooterProps> = {
-  label: "Footer",
+  label: msg("components.footer", "Footer"),
   fields: FooterFields,
   defaultProps: {
     section: {
