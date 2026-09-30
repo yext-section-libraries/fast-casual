@@ -40,11 +40,13 @@
     "phone": "Telefon",
     "reviewsSection": "Odjeljak recenzija"
   },
+  "currentLocation": "Trenutna lokacija",
   "customSearchArea": "Područje prilagođenog pretraživanja",
   "distance": "Udaljenost",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> iz pretraživanja",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> od {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> od vas",
+  "email": "E-mail",
   "enableCookies": "Omogući kolačiće",
   "fields": {
     "accentColor": "Boja akcenta",

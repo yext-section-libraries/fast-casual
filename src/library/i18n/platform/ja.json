@@ -38,11 +38,13 @@
     "phone": "電話",
     "reviewsSection": "レビューセクション"
   },
+  "currentLocation": "現在地",
   "customSearchArea": "カスタム検索領域",
   "distance": "距離",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> 検索から",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> ({{searchLocation}} から)",
   "distanceLineFromYou": "あなたからの<strong>{{distance}}</strong>",
+  "email": "電子メール",
   "enableCookies": "Cookieを有効にする",
   "fields": {
     "accentColor": "アクセントカラー",
