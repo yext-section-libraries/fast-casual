@@ -41,11 +41,13 @@
     "phone": "Telefón",
     "reviewsSection": "Sekcia recenzií"
   },
+  "currentLocation": "Aktuálna poloha",
   "customSearchArea": "Oblasť vyhľadávania",
   "distance": "Vzdialenosť",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> z vyhľadávania",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> od {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> od vás",
+  "email": "Email",
   "enableCookies": "Povoliť súbory cookie",
   "fields": {
     "accentColor": "Farba zvýraznenia",

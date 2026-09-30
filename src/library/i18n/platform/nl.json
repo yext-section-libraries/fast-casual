@@ -39,11 +39,13 @@
     "phone": "Telefoon",
     "reviewsSection": "Beoordelingensectie"
   },
+  "currentLocation": "Huidige locatie",
   "customSearchArea": "Aangepast zoekgebied",
   "distance": "Afstand",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> uit zoekopdracht",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> van {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> van jou",
+  "email": "E-mail",
   "enableCookies": "Cookies inschakelen",
   "fields": {
     "accentColor": "Accentkleur",
