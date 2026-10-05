@@ -1,3 +1,5 @@
+import { FastCasualStyledRichText as StyledTextComponent } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg, pt } from "@yext/visual-editor";
 import { PuckComponent } from "@puckeditor/core";
@@ -6,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import {
   Body,
   PageSection,
-  StyledTextComponent,
   type StyledTextValue,
   type ThemeColor,
   type TranslatableRichText,
@@ -146,10 +147,10 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
         <div className="relative flex h-20 w-full flex-row items-center justify-center gap-3 rounded-lg border border-gray-200 bg-gray-100 px-4">
           <CircleSlash2 className="h-10 w-10 flex-shrink-0 text-gray-400" />
           <div className="flex flex-col items-start">
-            <Body className="font-medium text-gray-500" variant="sm">
+            <Body className="text-gray-500" variant="sm">
               {pt("sectionHiddenForThisPage", "Section hidden for this page")}
             </Body>
-            <Body className="font-normal text-gray-500" variant="sm">
+            <Body className="text-gray-500" variant="sm">
               {pt("mappedBannerFieldEmpty", "The mapped banner field is empty")}
             </Body>
           </div>
@@ -190,7 +191,7 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
  * Displays a full-width, editor-configurable rich-text banner.
  */
 export const FastCasualBanner: YextComponentConfig<FastCasualBannerProps> = {
-  label: msg("components.banner", "Banner"),
+  label: msg("components.banner", "Banner Section"),
   fields: FastCasualBannerFields,
   defaultProps: {
     data: {
@@ -218,18 +219,20 @@ export const FastCasualBanner: YextComponentConfig<FastCasualBannerProps> = {
     },
   },
   render: (props) => (
-    <VisibilityWrapper
-      isEditing={props.puck.isEditing}
-      liveVisibility={props.section.visibleOnLivePage}
-    >
-      <FastCasualBannerComponent {...props} />
-    </VisibilityWrapper>
+    <TypographyScope>
+      <VisibilityWrapper
+        isEditing={props.puck.isEditing}
+        liveVisibility={props.section.visibleOnLivePage}
+      >
+        <FastCasualBannerComponent {...props} />
+      </VisibilityWrapper>
+    </TypographyScope>
   ),
 };
 
 export const config: SectionConfig = {
-  id: "FastCasualBanner",
-  displayName: "Banner",
+  id: "FastCasualBannerSection",
+  displayName: "Banner Section",
   description: "Banner",
-  pageSetTypes: ["ENTITY"],
+  pageSetTypes: ["ENTITY", "DIRECTORY", "LOCATOR"],
 };

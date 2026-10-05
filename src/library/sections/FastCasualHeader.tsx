@@ -1,3 +1,4 @@
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -650,10 +651,10 @@ const headerTypographyStyles = getScopedTypographyStyles(
 );
 
 const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const analytics = useAnalytics();
   const streamDocument = useDocument<StreamDocument>();
-  const locale = streamDocument.locale ?? "en";
+  const locale = i18n.language;
   const headerSurfaceStyle = getSurfaceColorStyle(
     props.section.backgroundColor,
     streamDocument,
@@ -899,7 +900,7 @@ const FastCasualHeaderComponent: PuckComponent<FastCasualHeaderProps> = (props) 
   const renderLogo = () => {
     const logoContent = !resolvedLogoImage ? (
       <div
-        className="flex items-center justify-center rounded border border-dashed border-current/30 text-[10px] font-medium text-center"
+        className="flex items-center justify-center rounded border border-dashed border-current/30 text-center"
         style={{
           height: "50px",
           width:
@@ -1274,11 +1275,13 @@ export const FastCasualHeader: YextComponentConfig<FastCasualHeaderProps> = {
     },
   },
   render: (props) => (
-    <AnalyticsScopeProvider
-      name={`FastCasualHeader${getAnalyticsScopeHash(props.id)}`}
-    >
-      <FastCasualHeaderComponent {...props} />
-    </AnalyticsScopeProvider>
+    <TypographyScope>
+      <AnalyticsScopeProvider
+        name={`FastCasualHeader${getAnalyticsScopeHash(props.id)}`}
+      >
+        <FastCasualHeaderComponent {...props} />
+      </AnalyticsScopeProvider>
+    </TypographyScope>
   ),
 };
 

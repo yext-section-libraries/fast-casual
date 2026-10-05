@@ -10,10 +10,10 @@ import {
 
 export { getThemeColorCssValue };
 
-type TextStyles = Pick<
+type TextStyles = Partial<Pick<
   StyledTextValue,
   "fontFamily" | "fontSize" | "fontWeight" | "fontStyle" | "textTransform"
->;
+>>;
 
 export const getTextStyle = (styles?: TextStyles) => ({
   fontFamily:
@@ -35,11 +35,11 @@ export const getTextStyle = (styles?: TextStyles) => ({
 });
 
 export const getLinkStyle = (
-  styles: Pick<StyledLinkValue, keyof TextStyles | "letterSpacing">,
+  styles?: Partial<Pick<StyledLinkValue, keyof TextStyles | "letterSpacing">>,
 ) => ({
   ...getTextStyle(styles),
   letterSpacing:
-    styles.letterSpacing === "default" ? undefined : styles.letterSpacing,
+    styles?.letterSpacing === "default" ? undefined : styles?.letterSpacing,
 });
 
 export const resolveTextColor = (
@@ -77,44 +77,8 @@ export const createAspectRatioField = (
     options: "ASPECT_RATIO",
   }) as unknown as YextFieldDefinition<number>;
 
+// Kept for section-specific decoration rules; typography lives in typography.css.
 export const getScopedTypographyStyles = (
-  scopeClass: string,
+  _scopeClass: string,
   additionalStyles = "",
-) => `
-  .${scopeClass} p,
-  .${scopeClass} li {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-  ${[1, 2, 3, 4, 5, 6]
-    .map(
-      (level) => `
-  .${scopeClass} h${level} {
-    font-family: var(--fontFamily-h${level}-fontFamily);
-    font-size: var(--fontSize-h${level}-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h${level}-fontWeight);
-    font-style: var(--fontStyle-h${level}-fontStyle);
-    text-transform: var(--textTransform-h${level}-textTransform);
-  }`,
-    )
-    .join("")}
-  .${scopeClass} a:not(.font-button-fontFamily) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-  .${scopeClass} a:not(.font-button-fontFamily):hover {
-    text-decoration: underline;
-  }
-  ${additionalStyles}
-`;
+) => additionalStyles;

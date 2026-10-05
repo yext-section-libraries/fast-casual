@@ -1,3 +1,5 @@
+import { FastCasualStyledRichText as StyledTextComponent } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -21,7 +23,6 @@ import {
   EntityField,
   type ComprehensiveCTAValue,
   Image,
-  StyledTextComponent,
   StyledTextValue,
   ThemeColor,
   TranslatableAssetImage,
@@ -354,9 +355,9 @@ const detailsTypographyStyles = getScopedTypographyStyles(
 );
 
 const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const streamDocument = useDocument();
-  const locale = streamDocument.locale ?? "en";
+  const locale = i18n.language;
   const sectionStyle = getSurfaceColorStyle(
     props.section.backgroundColor,
     streamDocument,
@@ -478,7 +479,6 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                 constantValueEnabled={props.heading.text.constantValueEnabled}
               >
                 <h2
-                  className="text-[30px] font-bold leading-none md:text-[36px]"
                   style={{
                     ...getTextStyle(props.heading.styles),
                     color: resolveTextColor(
@@ -492,7 +492,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
               </EntityField>
               <div className="grid gap-4">
                 <div className="grid gap-1">
-                  <p className="text-[12px] font-bold uppercase tracking-[0.08em]">
+                  <p className="tracking-[0.08em]">
                     {t("address", "Address")}
                   </p>
                   {resolvedAddress ? (
@@ -510,7 +510,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                   ) : null}
                 </div>
                 <div className="grid gap-1">
-                  <p className="text-[12px] font-bold uppercase tracking-[0.08em]">
+                  <p className="tracking-[0.08em]">
                     {t("phone", "Phone")}
                   </p>
                   {resolvedPhones.map((phone, index) => (
@@ -520,7 +520,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                       fieldId={phone.fieldId}
                       constantValueEnabled={phone.constantValueEnabled}
                     >
-                      <div className="text-[14px]">
+                      <div>
                         {props.phones.includeHyperlink ? (
                           <Link
                             cta={{
@@ -544,7 +544,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                     </EntityField>
                   ))}
                 </div>
-                <div className="flex flex-wrap gap-4 text-[13px] font-medium underline underline-offset-4">
+                <div className="flex flex-wrap gap-4 underline underline-offset-4">
                   {(props.utilityLinks ?? []).map((item, index) => {
                     const ctaLabel =
                       getCtaLabel(item.cta) || `Utility Link ${index + 1}`;
@@ -568,7 +568,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
                   })}
                 </div>
                 <div className="grid gap-1">
-                  <p className="text-[12px] font-bold uppercase tracking-[0.08em]">
+                  <p className="tracking-[0.08em]">
                     {t("otherDetails", "Other Details")}
                   </p>
                   <StyledTextComponent
@@ -666,7 +666,7 @@ export const FastCasualDetailsSection: YextComponentConfig<DetailsProps> = {
         constantValue: {
           defaultValue: {
             html: "<p>Price range: $$</p><p>Cuisine: Burgers, American</p><p>Meals served: Lunch, Dinner, Brunch</p>",
-            json: "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Price range: $$\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1},{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Cuisine: Burgers, American\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1},{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"Meals served: Lunch, Dinner, Brunch\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
+            json: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Price range: $$","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Cuisine: Burgers, American","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Meals served: Lunch, Dinner, Brunch","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
           },
           hasLocalizedValue: "true",
         },
@@ -676,7 +676,11 @@ export const FastCasualDetailsSection: YextComponentConfig<DetailsProps> = {
       fontColor: undefined,
     },
   },
-  render: (props) => <DetailsComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <DetailsComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {

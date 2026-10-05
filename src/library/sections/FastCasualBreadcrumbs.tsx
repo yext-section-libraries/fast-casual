@@ -1,9 +1,10 @@
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg, pt } from "@yext/visual-editor";
 import { useTranslation } from "react-i18next";
 import {
   getTextStyle,
-  getThemeColorCssValue,
+  getThemeColorCssValue
 } from "../shared/styleHelpers";
 
 import * as React from "react";
@@ -91,12 +92,12 @@ const fields: YextFields<BreadcrumbsProps> = {
 
 /** Renders directory breadcrumbs using the current location's resolved hierarchy. */
 const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const streamDocument = useDocument();
   const { relativePrefixToRoot } = useTemplateProps<{
     relativePrefixToRoot?: string;
   }>();
-  const locale = streamDocument.locale ?? "en";
+  const locale = i18n.language;
   const breadcrumbs = resolveBreadcrumbs(streamDocument);
   const rootLabel =
     resolveComponentData(props.rootLabel.text, locale, streamDocument) || "";
@@ -117,7 +118,6 @@ const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
     return props.puck.isEditing ? (
       <p
         style={{
-          fontFamily: "Arial, Helvetica, sans-serif",
           padding: "18px 24px",
         }}
       >
@@ -146,7 +146,7 @@ const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
           )}
         >
           <ol
-            className="mx-auto flex max-w-[1440px] flex-wrap items-center gap-x-2 gap-y-1 text-sm"
+            className="mx-auto flex max-w-[1440px] flex-wrap items-center gap-x-2 gap-y-1"
             style={textStyle}
           >
             {breadcrumbs.map(({ name, slug }, index) => {
@@ -193,6 +193,7 @@ const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
                         }}
                         eventName={`breadcrumb${index}`}
                         className="underline-offset-4 hover:underline"
+                        style={textStyle}
                       >
                         {label}
                       </Link>
@@ -207,6 +208,7 @@ const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
                       }}
                       eventName={`breadcrumb${index}`}
                       className="underline-offset-4 hover:underline"
+                      style={textStyle}
                     >
                       {label}
                     </Link>
@@ -223,8 +225,8 @@ const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
 
 export const FastCasualBreadcrumbs: YextComponentConfig<BreadcrumbsProps> =
   {
-    label: msg("components.breadcrumbs", "Breadcrumbs"),
-    render: BreadcrumbsComponent,
+    label: msg("components.breadcrumbs", "Breadcrumbs Section"),
+    render: (props) => <TypographyScope><BreadcrumbsComponent {...props} /></TypographyScope>,
     fields,
     defaultProps: {
       section: {
@@ -254,7 +256,7 @@ export const FastCasualBreadcrumbs: YextComponentConfig<BreadcrumbsProps> =
 
 export const config: SectionConfig = {
   id: "FastCasualBreadcrumbs",
-  displayName: "Breadcrumbs",
+  displayName: "Breadcrumbs Section",
   description: "Breadcrumbs",
   pageSetTypes: ["ENTITY"],
 };

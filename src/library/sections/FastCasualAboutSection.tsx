@@ -1,3 +1,5 @@
+import { FastCasualStyledRichText as StyledTextComponent } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -13,7 +15,6 @@ import {
   getAnalyticsScopeHash,
   getDefaultForegroundColor,
   getSurfaceColorStyle,
-  StyledTextComponent,
   StyledTextValue,
   ThemeColor,
   TranslatableRichText,
@@ -25,6 +26,7 @@ import {
   useDocument,
   VisibilityWrapper,
 } from "@yext/visual-editor";
+import { useTranslation } from "react-i18next";
 
 type AboutProps = {
   section: {
@@ -138,7 +140,8 @@ const aboutTypographyStyles = getScopedTypographyStyles(
 
 const AboutComponent: PuckComponent<AboutProps> = (props) => {
   const streamDocument = useDocument();
-  const locale = streamDocument.locale ?? "en";
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const sectionStyle = getSurfaceColorStyle(
     props.section.backgroundColor,
     streamDocument,
@@ -170,7 +173,7 @@ const AboutComponent: PuckComponent<AboutProps> = (props) => {
                   constantValueEnabled={props.eyebrow.text.constantValueEnabled}
                 >
                   <p
-                    className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                    className="mb-2 tracking-[0.12em]"
                     style={{
                       ...getTextStyle(props.eyebrow.styles),
                       color: resolveTextColor(
@@ -188,8 +191,7 @@ const AboutComponent: PuckComponent<AboutProps> = (props) => {
                   constantValueEnabled={props.heading.text.constantValueEnabled}
                 >
                   <h2
-                    className="text-[34px] font-bold leading-[1.05] md:text-[46px]"
-                    style={{
+                style={{
                       ...getTextStyle(props.heading.styles),
                       color: resolveTextColor(
                         props.heading.fontColor,
@@ -286,7 +288,11 @@ export const FastCasualAboutSection: YextComponentConfig<AboutProps> = {
       fontColor: undefined,
     },
   },
-  render: (props) => <AboutComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <AboutComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {

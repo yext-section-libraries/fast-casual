@@ -1,3 +1,4 @@
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -328,7 +329,7 @@ const isResolvedHours = (value: unknown): value is HoursType => {
 const HeroComponent: PuckComponent<HeroProps> = (props) => {
   const { t, i18n } = useTranslation();
   const streamDocument = useDocument<HeroDocument>();
-  const locale = streamDocument.locale ?? "en";
+  const locale = i18n.language;
   const { averageRating, reviewCount } = getAggregateRating(streamDocument);
   const ratingValue = typeof averageRating === "number" ? averageRating : 0;
   const ratingCount = typeof reviewCount === "number" ? reviewCount : 0;
@@ -418,12 +419,12 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
 
     return (
       <div
-        className="flex w-full flex-wrap items-center justify-center gap-2 text-center text-[12px] font-medium uppercase tracking-[0.08em]"
+        className="flex w-full flex-wrap items-center justify-center gap-2 text-center tracking-[0.08em]"
         style={{ color: heroTextColor }}
       >
         {(props.hoursStyles.showCurrentStatus || isComingSoon) && (
           <span
-            className="rounded-full px-3 py-1 text-[10px] font-bold"
+            className="rounded-full px-3 py-1"
             style={{
               backgroundColor:
                 getThemeColorCssValue(defaultCTAColor) ??
@@ -437,7 +438,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
           </span>
         )}
         {futureText ? (
-          <span className="text-[11px] tracking-[0.02em]">{futureText}</span>
+          <span className="tracking-[0.02em]">{futureText}</span>
         ) : null}
       </div>
     );
@@ -482,7 +483,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
                 constantValueEnabled={props.brandName.text.constantValueEnabled}
               >
                 <p
-                  className="mb-2 text-[13px] font-semibold uppercase tracking-[0.08em]"
+                  className="mb-2 tracking-[0.08em]"
                   style={{
                     ...getTextStyle(props.brandName.styles),
                     color: heroTextColor,
@@ -499,7 +500,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
                 }
               >
                 <h1
-                  className="mb-3 text-[38px] font-bold uppercase leading-none md:text-[46px]"
+                  className="mb-3"
                   style={{
                     ...getTextStyle(props.geomodifier.styles),
                     color: heroHeadingColor,
@@ -515,7 +516,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
                   constantValueEnabled={false}
                 >
                   <div
-                    className="mb-3 flex flex-wrap items-center justify-center gap-2 text-[11px] font-semibold md:text-[12px]"
+                    className="mb-3 flex flex-wrap items-center justify-center gap-2"
                     style={{ color: heroTextColor }}
                   >
                     <span>
@@ -524,7 +525,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
                         rating: ratingValue.toFixed(1),
                       })}
                     </span>
-                    <span className="text-[14px] tracking-[0.12em]">
+                    <span className="tracking-[0.12em]">
                       {renderStarRating(ratingValue)}
                     </span>
                     <span
@@ -569,7 +570,7 @@ const HeroComponent: PuckComponent<HeroProps> = (props) => {
                   </div>
                 </EntityField>
               ) : null}
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap  sm:justify-around sm:gap-4">
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-around sm:gap-4">
                 {(props.actions ?? []).map((action, index) => (
                   <div key={index} className="flex w-full sm:w-auto">
                     <EntityField
@@ -727,7 +728,11 @@ export const FastCasualHeroSection: YextComponentConfig<HeroProps> = {
       },
     ],
   },
-  render: (props) => <HeroComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <HeroComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {

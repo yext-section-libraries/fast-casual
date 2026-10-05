@@ -1,3 +1,5 @@
+import { FastCasualRichText as MaybeRTF } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -19,7 +21,6 @@ import {
   getAnalyticsScopeHash,
   getDefaultRTF,
   Image,
-  MaybeRTF,
   StyledTextValue,
   StyledImageValue,
   ThemeColor,
@@ -35,6 +36,7 @@ import {
   useDocument,
   isDarkColor,
 } from "@yext/visual-editor";
+import { useTranslation } from "react-i18next";
 
 type FeaturedItem = {
   title: YextEntityField<TranslatableString>;
@@ -300,7 +302,8 @@ const FeaturedFields: YextFields<FeaturedProps> = {
         type: "select",
         options: [
           { label: msg("fields.options.primary", "Primary"), value: "primary" },
-          { label: msg("fields.options.secondary", "Secondary"), value: "secondary" },
+          { label: msg("fields.options.secondary", "Secondary"), value: "secondary",
+          },
           { label: msg("fields.options.outline", "Outline"), value: "outline" },
           { label: msg("fields.options.link", "Link"), value: "link" },
         ],
@@ -373,7 +376,8 @@ const featuredTypographyStyles = getScopedTypographyStyles(
 
 const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
   const streamDocument = useDocument();
-  const locale = streamDocument.locale ?? "en";
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const scopeName = `YextFastCasualFeaturedItemsSection${getAnalyticsScopeHash(props.id)}`;
   const headingText =
     resolveComponentData(props.heading.text, locale, streamDocument) || "";
@@ -397,7 +401,8 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
         <section
           className={`${featuredTypographyScopeClass} px-6 py-6 md:px-8 md:py-8`}
           style={{
-            backgroundColor: getThemeColorCssValue(props.section.backgroundColor),
+            backgroundColor: getThemeColorCssValue(props.section.backgroundColor,
+            ),
           }}
         >
           <style>{featuredTypographyStyles}</style>
@@ -408,7 +413,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
               constantValueEnabled={props.heading.text.constantValueEnabled}
             >
               <h2
-                className="text-left text-[34px] font-bold leading-none md:text-[44px] lg:text-center"
+                className="text-left lg:text-center"
                 style={{
                   ...getTextStyle(props.heading.styles),
                   color: resolveTextColor(
@@ -441,8 +446,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
                 };
                 const description = getRichTextValue(
                   item.description,
-                  locale,
-                );
+                  locale);
                 const isReversed = index % 2 === 0;
                 const titleStyle = {
                   ...getTextStyle(props.title?.styles),
@@ -474,7 +478,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
                         }}
                       >
                         <h3
-                          className="mb-3 text-[28px] font-bold leading-tight md:text-[32px]"
+                          className="mb-3"
                           style={{ ...titleStyle }}
                         >
                           {titleText}
@@ -485,7 +489,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
                             richTextStyleOverrides={
                               descriptionRichTextStyleOverrides
                             }
-                            className="text-[15px] leading-6"
+
                           />
                         </div>
                         {item.cta ? (
@@ -590,7 +594,11 @@ export const FastCasualFeaturedItemsSection: YextComponentConfig<FeaturedProps> 
         color: undefined,
       },
     },
-    render: (props) => <FeaturedComponent {...props} />,
+    render: (props) => (
+    <TypographyScope>
+      <FeaturedComponent {...props} />
+    </TypographyScope>
+  ),
   };
 
 export const config: SectionConfig = {

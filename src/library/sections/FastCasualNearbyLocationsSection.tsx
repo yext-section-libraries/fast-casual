@@ -1,3 +1,5 @@
+import { getBodyTextStyle } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg, pt } from "@yext/visual-editor";
 import {
@@ -296,12 +298,12 @@ const isCoordinate = (value: unknown): value is Coordinate => {
 };
 
 const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const streamDocument = useDocument<StreamDocument>();
   const { relativePrefixToRoot } = useTemplateProps<{
     relativePrefixToRoot?: string;
   }>();
-  const locale = streamDocument.locale ?? "en";
+  const locale = i18n.language;
   const rawCoordinate = resolveComponentData(
     props.map.coordinate,
     locale,
@@ -325,7 +327,8 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
   const scopeName = `YextFastCasualNearbyLocationsSection${getAnalyticsScopeHash(props.id)}`;
   const headingText =
     resolveComponentData(props.heading.text, locale, streamDocument) || "";
-  const sectionBackground = getThemeColorCssValue(props.section.backgroundColor);
+  const sectionBackground = getThemeColorCssValue(props.section.backgroundColor,
+  );
   const sectionForeground =
     getThemeColorCssValue(props.section.backgroundColor.contrastingColor) ??
     "#000000";
@@ -350,11 +353,11 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
             fieldId={props.heading.text.field}
             constantValueEnabled={props.heading.text.constantValueEnabled}
           >
-            <h2 className="mb-4 text-left text-[34px] font-bold leading-none md:text-[44px] lg:text-center">
+            <h2 className="mb-4 text-left lg:text-center">
               {headingText}
             </h2>
           </EntityField>
-          <p className="text-center text-sm text-neutral-500">
+          <p className="text-center text-neutral-500">
             {t("loadingNearbyLocations", "Loading nearby locations")}
           </p>
         </div>
@@ -376,7 +379,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
         }}
       >
         <style>{nearbyTypographyStyles}</style>
-        <div className="mx-auto max-w-[1440px] text-center text-sm">
+        <div className="mx-auto max-w-[1440px] text-center">
           {pt(
             "noNearbyLocationsFoundForThisLocation",
             "No nearby locations found for this location",
@@ -419,7 +422,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
               constantValueEnabled={props.heading.text.constantValueEnabled}
             >
               <h2
-                className="mb-6 text-left text-[34px] font-bold leading-none md:text-[44px] lg:text-center"
+                className="mb-6 text-left lg:text-center"
                 style={{
                   ...getTextStyle(props.heading.styles),
                   color: resolveTextColor(
@@ -476,11 +479,10 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                           constantValueEnabled={false}
                         >
                           <p
-                            className="block text-[22px] font-bold leading-tight text-current"
+                            className="block text-current"
                             style={{
                               ...getTextStyle(
-                                props.nearbyLocationName.styles,
-                              ),
+                                props.nearbyLocationName.styles),
                               color: resolveTextColor(
                                 props.nearbyLocationName.fontColor,
                                 sectionForeground,
@@ -497,9 +499,9 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                             constantValueEnabled={false}
                           >
                             <div
-                              className="mt-1 text-[14px] leading-6 text-current"
+                              className="mt-1 text-current"
                               style={{
-                                ...getTextStyle(props.nearbyAddress.styles),
+                                ...getBodyTextStyle(props.nearbyAddress.styles),
                                 color: resolveTextColor(
                                   props.nearbyAddress.fontColor,
                                   sectionForeground,
@@ -521,9 +523,9 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                             constantValueEnabled={false}
                           >
                             <p
-                              className="text-[14px] leading-6 text-current"
+                              className="text-current"
                               style={{
-                                ...getTextStyle(props.nearbyPhone.styles),
+                                ...getBodyTextStyle(props.nearbyPhone.styles),
                                 color: resolveTextColor(
                                   props.nearbyPhone.fontColor,
                                   sectionForeground,
@@ -536,9 +538,9 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                         ) : null}
                         {miles ? (
                           <p
-                            className="text-[13px] leading-6 text-current"
+                            className="text-current"
                             style={{
-                              ...getTextStyle(props.nearbyDistance.styles),
+                              ...getBodyTextStyle(props.nearbyDistance.styles),
                               color: resolveTextColor(
                                 props.nearbyDistance.fontColor,
                                 sectionForeground,
@@ -557,7 +559,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
                           eventName={`getDirections${index}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="yfc-nearby-directions mt-1 inline-flex text-[13px] font-medium text-current underline-offset-4"
+                          className="yfc-nearby-directions mt-1 inline-flex text-current underline-offset-4"
                           style={{
                             ...getLinkStyle(props.getDirectionsLink.styles),
                             color: resolveTextColor(
@@ -611,7 +613,7 @@ export const FastCasualNearbyLocationsSection: YextComponentConfig<NearbyLocatio
         fontColor: undefined,
         styles: {
           ...defaultTextStyles,
-          fontWeight: "700",
+          fontWeight: "default",
         },
       },
       nearbyAddress: {
@@ -626,15 +628,15 @@ export const FastCasualNearbyLocationsSection: YextComponentConfig<NearbyLocatio
         fontColor: undefined,
         styles: {
           ...defaultTextStyles,
-          fontSize: "13px",
+          fontSize: "default",
         },
       },
       getDirectionsLink: {
         fontColor: undefined,
         styles: {
           ...defaultLinkStyles,
-          fontSize: "13px",
-          fontWeight: "500",
+          fontSize: "default",
+          fontWeight: "default",
         },
       },
       radius: 10,
@@ -654,7 +656,11 @@ export const FastCasualNearbyLocationsSection: YextComponentConfig<NearbyLocatio
         height: "100%",
       },
     },
-    render: (props) => <NearbyComponent {...props} />,
+    render: (props) => (
+    <TypographyScope>
+      <NearbyComponent {...props} />
+    </TypographyScope>
+  ),
   };
 
 export const config: SectionConfig = {

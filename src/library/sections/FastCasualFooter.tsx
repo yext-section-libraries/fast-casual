@@ -1,3 +1,4 @@
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import {
   createAspectRatioField,
@@ -391,9 +392,9 @@ const footerTypographyStyles = getScopedTypographyStyles(
 );
 
 const FooterComponent: PuckComponent<FooterProps> = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const streamDocument = useDocument();
-  const locale = streamDocument.locale ?? "en";
+  const locale = i18n.language;
   const scopeName = `YextFastCasualFooter${getAnalyticsScopeHash(props.id)}`;
   const rawLogo = resolveComponentData(
     props.logoImage.image,
@@ -466,7 +467,6 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
                     }
                   >
                   <p
-                    className="text-[24px] font-bold"
                     style={{
                       ...getTextStyle(props.brandName.styles),
                       color: getThemeColorCssValue(props.brandName.fontColor) ?? sectionForeground,
@@ -484,7 +484,7 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
                   }
                 >
                   <p
-                    className="text-[12px] text-white/70"
+                    className="text-white/70"
                     style={{
                       ...getTextStyle(props.copyright.styles),
                       color:
@@ -498,12 +498,12 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
               </div>
               <div>
                 <p
-                  className="mb-4 text-[14px] font-semibold"
+                  className="mb-4"
                   style={{ color: sectionForeground }}
                 >
                   {t("quickLinks", "Quick Links")}
                 </p>
-                <div className="grid gap-3 text-[13px] md:grid-cols-3">
+                <div className="grid gap-3 md:grid-cols-3">
                   {[0, 1, 2].map((column) => (
                     <div key={column} className="flex flex-col gap-2">
                       {(props.quickLinks ?? [])
@@ -532,12 +532,12 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
               </div>
               <div>
                 <p
-                  className="mb-4 text-[14px] font-semibold"
+                  className="mb-4"
                   style={{ color: sectionForeground }}
                 >
                   {t("socialMedia", "Social Media")}
                 </p>
-                <div className="grid gap-2 text-[13px]">
+                <div className="grid gap-2">
                   {(props.socialLinks ?? []).map((link, index) => (
                     <EntityField
                       key={`${
@@ -585,7 +585,7 @@ const FooterComponent: PuckComponent<FooterProps> = (props) => {
                   />
                 </EntityField>
               </div>
-              <nav className="flex flex-wrap gap-4 text-[12px] text-white/80">
+              <nav className="flex flex-wrap gap-4 text-white/80">
                 {(props.legalLinks ?? []).map((link, index) => (
                   <EntityField
                     key={`${
@@ -677,7 +677,11 @@ export const FastCasualFooter: YextComponentConfig<FooterProps> = {
     appStoreCta: makeBadgeCta("#", "app-store"),
     playStoreCta: makeBadgeCta("#", "google-play"),
   },
-  render: (props) => <FooterComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <FooterComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {
