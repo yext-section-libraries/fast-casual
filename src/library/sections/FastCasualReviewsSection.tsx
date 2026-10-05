@@ -1,3 +1,4 @@
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -144,12 +145,12 @@ const reviewsTypographyStyles = getScopedTypographyStyles(
 );
 
 const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const streamDocument = useDocument<{
     locale?: string;
     ref_reviewsAgg?: { publisher?: string; topReviews?: Review[] }[];
   }>();
-  const locale = streamDocument.locale ?? "en-US";
+  const locale = i18n.language;
   const { averageRating, reviewCount } = getAggregateRating(streamDocument);
   const firstPartyAggregate = streamDocument.ref_reviewsAgg?.find(
     (aggregate) => aggregate.publisher === "FIRSTPARTY",
@@ -206,7 +207,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                 constantValueEnabled={props.heading.text.constantValueEnabled}
               >
                 <h2
-                  className="mb-2 text-[34px] font-bold leading-none md:text-[44px]"
+                  className="mb-2"
                   style={{
                     ...getTextStyle(props.heading.styles),
                     color: resolveTextColor(
@@ -223,7 +224,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                 fieldId="ref_reviewsAgg"
                 constantValueEnabled={false}
               >
-                <p className="text-[14px]" style={{ color: sectionForeground }}>
+                <p style={{ color: sectionForeground }}>
                   {t("averageRatingFromReviews", {
                     averageRating: averageRating?.toFixed(1),
                     count: reviewCount,
@@ -253,7 +254,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                     }}
                   >
                     <h3
-                      className="mb-2 text-[18px] font-bold text-current"
+                      className="mb-2 text-current"
                       style={{
                         ...getTextStyle(props.reviewerName.styles),
                         color: resolveTextColor(
@@ -264,7 +265,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                     >
                       {review.authorName || t("anonymous", "Anonymous")}
                     </h3>
-                    <div className="mb-3 flex flex-wrap items-center gap-2 text-[12px] font-semibold text-current">
+                    <div className="mb-3 flex flex-wrap items-center gap-2 text-current">
                       <span>
                         {t("ratingInStars", {
                           defaultValue: "{{rating}} Stars",
@@ -286,7 +287,7 @@ const ReviewsComponent: PuckComponent<ReviewsProps> = (props) => {
                       </time>
                     </div>
                     <p
-                      className="text-[14px] leading-6 text-current"
+                      className="text-current"
                       style={{
                         ...getTextStyle(props.reviewText.styles),
                         color: resolveTextColor(
@@ -359,7 +360,11 @@ export const FastCasualReviewsSection: YextComponentConfig<ReviewsProps> = {
       },
     },
   },
-  render: (props) => <ReviewsComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <ReviewsComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {

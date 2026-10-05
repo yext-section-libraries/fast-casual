@@ -1,3 +1,5 @@
+import { FastCasualStyledRichText as StyledTextComponent } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -11,7 +13,6 @@ import {
   getAnalyticsScopeHash,
   getDefaultRTF,
   getSurfaceColorStyle,
-  StyledTextComponent,
   StyledTextValue,
   ThemeColor,
   TranslatableRichText,
@@ -154,7 +155,11 @@ export const FastCasualIntroSection: YextComponentConfig<IntroProps> = {
       fontColor: undefined,
     },
   },
-  render: (props) => <IntroComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <IntroComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {

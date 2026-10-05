@@ -1,3 +1,5 @@
+import { FastCasualStyledRichText as StyledTextComponent } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -15,7 +17,6 @@ import {
   type ComprehensiveCTAValue,
   getAnalyticsScopeHash,
   Image,
-  StyledTextComponent,
   StyledTextValue,
   ThemeColor,
   TranslatableAssetImage,
@@ -32,6 +33,7 @@ import {
   getSurfaceColorStyle,
   isDarkColor,
 } from "@yext/visual-editor";
+import { useTranslation } from "react-i18next";
 
 type EventsProps = {
   section: {
@@ -172,7 +174,8 @@ const eventsTypographyStyles = getScopedTypographyStyles(
 
 const EventsComponent: PuckComponent<EventsProps> = (props) => {
   const streamDocument = useDocument();
-  const locale = streamDocument.locale ?? "en";
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const sectionStyle = getSurfaceColorStyle(
     props.section.backgroundColor,
     streamDocument,
@@ -233,7 +236,7 @@ const EventsComponent: PuckComponent<EventsProps> = (props) => {
               constantValueEnabled={props.heading.text.constantValueEnabled}
             >
               <h2
-                className="mb-4 text-[36px] font-bold leading-[1.05] md:text-[50px]"
+                className="mb-4"
                 style={{
                   ...getTextStyle(props.heading.styles),
                   color: resolveTextColor(
@@ -245,7 +248,7 @@ const EventsComponent: PuckComponent<EventsProps> = (props) => {
                 {headingText}
               </h2>
             </EntityField>
-            <div className="max-w-[620px] text-[15px] leading-6 md:text-[16px]">
+            <div className="max-w-[620px]">
               <StyledTextComponent
                 data={{ text: props.description.text }}
                 fontOptions={{
@@ -335,7 +338,11 @@ export const FastCasualEventsSection: YextComponentConfig<EventsProps> = {
     },
     cta: makeCta(),
   },
-  render: (props) => <EventsComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <EventsComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {

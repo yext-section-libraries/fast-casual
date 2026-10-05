@@ -1,0 +1,167 @@
+/* Theme defaults stay in CSS; fields override individual properties. */
+.fast-casual-typography { display: contents; }
+.fast-casual-typography,
+.fast-casual-typography :is(section, article, header, footer, nav, address, input, select, textarea, .components, .rtf-wrapper, .HoursTable) {
+  font-family: var(--fast-casual-body-fontFamily, var(--fontFamily-body-fontFamily));
+  font-size: var(--fast-casual-body-fontSize, var(--fontSize-body-fontSize));
+  font-weight: var(--fast-casual-body-fontWeight, var(--fontWeight-body-fontWeight));
+  font-style: var(--fast-casual-body-fontStyle, var(--fontStyle-body-fontStyle));
+  text-transform: var(--fast-casual-body-textTransform, var(--textTransform-body-textTransform));
+  line-height: 1.5;
+}
+.fast-casual-typography :is(p, li, td, th) {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  text-transform: inherit;
+  line-height: 1.5;
+}
+.fast-casual-typography :is(h1, h1.components) {
+  font-family: var(--fontFamily-h1-fontFamily);
+  font-size: var(--fontSize-h1-fontSize);
+  font-weight: var(--fontWeight-h1-fontWeight);
+  font-style: var(--fontStyle-h1-fontStyle);
+  text-transform: var(--textTransform-h1-textTransform);
+  line-height: 1.2;
+}
+.fast-casual-typography :is(h2, h2.components) {
+  font-family: var(--fontFamily-h2-fontFamily);
+  font-size: var(--fontSize-h2-fontSize);
+  font-weight: var(--fontWeight-h2-fontWeight);
+  font-style: var(--fontStyle-h2-fontStyle);
+  text-transform: var(--textTransform-h2-textTransform);
+  line-height: 1.2;
+}
+.fast-casual-typography :is(h3, h3.components) {
+  font-family: var(--fontFamily-h3-fontFamily);
+  font-size: var(--fontSize-h3-fontSize);
+  font-weight: var(--fontWeight-h3-fontWeight);
+  font-style: var(--fontStyle-h3-fontStyle);
+  text-transform: var(--textTransform-h3-textTransform);
+  line-height: 1.2;
+}
+.fast-casual-typography :is(h4, h4.components) {
+  font-family: var(--fontFamily-h4-fontFamily);
+  font-size: var(--fontSize-h4-fontSize);
+  font-weight: var(--fontWeight-h4-fontWeight);
+  font-style: var(--fontStyle-h4-fontStyle);
+  text-transform: var(--textTransform-h4-textTransform);
+  line-height: 1.2;
+}
+.fast-casual-typography :is(h5, h5.components) {
+  font-family: var(--fontFamily-h5-fontFamily);
+  font-size: var(--fontSize-h5-fontSize);
+  font-weight: var(--fontWeight-h5-fontWeight);
+  font-style: var(--fontStyle-h5-fontStyle);
+  text-transform: var(--textTransform-h5-textTransform);
+  line-height: 1.2;
+}
+.fast-casual-typography :is(h6, h6.components) {
+  font-family: var(--fontFamily-h6-fontFamily);
+  font-size: var(--fontSize-h6-fontSize);
+  font-weight: var(--fontWeight-h6-fontWeight);
+  font-style: var(--fontStyle-h6-fontStyle);
+  text-transform: var(--textTransform-h6-textTransform);
+  line-height: 1.2;
+}
+.fast-casual-typography :is(a, a.components) {
+  font-family: var(--fontFamily-link-fontFamily);
+  font-size: var(--fontSize-link-fontSize);
+  font-weight: var(--fontWeight-link-fontWeight);
+  font-style: var(--fontStyle-link-fontStyle);
+  text-transform: var(--textTransform-link-textTransform);
+  line-height: 1.5;
+}
+.fast-casual-typography :is(button, button.components, .button, a.button, [role="button"], a.font-button-fontFamily) {
+  font-family: var(--fontFamily-button-fontFamily);
+  font-size: var(--fontSize-button-fontSize);
+  font-weight: var(--fontWeight-button-fontWeight);
+  font-style: var(--fontStyle-button-fontStyle);
+  text-transform: var(--textTransform-button-textTransform);
+  line-height: 1.5;
+}
+/* Match the platform’s important RTF rules, including its mobile heading rules.
+   Library variables survive nested .components token resets. */
+.fast-casual-typography .rtf-theme :is(p, li) {
+  font-family: var(--fast-casual-body-fontFamily, var(--fontFamily-body-fontFamily)) !important;
+  font-size: var(--fast-casual-body-fontSize, var(--fontSize-body-fontSize)) !important;
+  font-weight: var(--fast-casual-body-fontWeight, var(--fontWeight-body-fontWeight)) !important;
+  font-style: var(--fast-casual-body-fontStyle, var(--fontStyle-body-fontStyle)) !important;
+  text-transform: var(--fast-casual-body-textTransform, var(--textTransform-body-textTransform)) !important;
+  line-height: 1.5 !important;
+}
+.fast-casual-typography .rtf-theme h1 {
+  font-family: var(--fontFamily-h1-fontFamily) !important;
+  font-size: var(--fontSize-h1-fontSize) !important;
+  font-weight: var(--fontWeight-h1-fontWeight) !important;
+  font-style: var(--fontStyle-h1-fontStyle) !important;
+  text-transform: var(--textTransform-h1-textTransform) !important;
+  line-height: 1.2 !important;
+}
+.fast-casual-typography .rtf-theme h2 {
+  font-family: var(--fontFamily-h2-fontFamily) !important;
+  font-size: var(--fontSize-h2-fontSize) !important;
+  font-weight: var(--fontWeight-h2-fontWeight) !important;
+  font-style: var(--fontStyle-h2-fontStyle) !important;
+  text-transform: var(--textTransform-h2-textTransform) !important;
+  line-height: 1.2 !important;
+}
+.fast-casual-typography .rtf-theme h3 {
+  font-family: var(--fontFamily-h3-fontFamily) !important;
+  font-size: var(--fontSize-h3-fontSize) !important;
+  font-weight: var(--fontWeight-h3-fontWeight) !important;
+  font-style: var(--fontStyle-h3-fontStyle) !important;
+  text-transform: var(--textTransform-h3-textTransform) !important;
+  line-height: 1.2 !important;
+}
+.fast-casual-typography .rtf-theme h4 {
+  font-family: var(--fontFamily-h4-fontFamily) !important;
+  font-size: var(--fontSize-h4-fontSize) !important;
+  font-weight: var(--fontWeight-h4-fontWeight) !important;
+  font-style: var(--fontStyle-h4-fontStyle) !important;
+  text-transform: var(--textTransform-h4-textTransform) !important;
+  line-height: 1.2 !important;
+}
+.fast-casual-typography .rtf-theme h5 {
+  font-family: var(--fontFamily-h5-fontFamily) !important;
+  font-size: var(--fontSize-h5-fontSize) !important;
+  font-weight: var(--fontWeight-h5-fontWeight) !important;
+  font-style: var(--fontStyle-h5-fontStyle) !important;
+  text-transform: var(--textTransform-h5-textTransform) !important;
+  line-height: 1.2 !important;
+}
+.fast-casual-typography .rtf-theme h6 {
+  font-family: var(--fontFamily-h6-fontFamily) !important;
+  font-size: var(--fontSize-h6-fontSize) !important;
+  font-weight: var(--fontWeight-h6-fontWeight) !important;
+  font-style: var(--fontStyle-h6-fontStyle) !important;
+  text-transform: var(--textTransform-h6-textTransform) !important;
+  line-height: 1.2 !important;
+}
+.fast-casual-typography .rtf-theme a {
+  font-family: var(--fontFamily-link-fontFamily) !important;
+  font-size: var(--fontSize-link-fontSize) !important;
+  font-weight: var(--fontWeight-link-fontWeight) !important;
+  font-style: var(--fontStyle-link-fontStyle) !important;
+  text-transform: var(--textTransform-link-textTransform) !important;
+  line-height: 1.5 !important;
+}
+.fast-casual-typography .HoursTable :is(.HoursTable-row, .HoursTable-day, .HoursTable-intervals) {
+  font-family: var(--fast-casual-body-fontFamily, var(--fontFamily-body-fontFamily));
+  font-size: var(--fast-casual-body-fontSize, var(--fontSize-body-fontSize));
+  font-weight: var(--fast-casual-body-fontWeight, var(--fontWeight-body-fontWeight));
+  font-style: var(--fast-casual-body-fontStyle, var(--fontStyle-body-fontStyle));
+  text-transform: var(--fast-casual-body-textTransform, var(--textTransform-body-textTransform));
+  line-height: 1.5;
+}
+
+/* Compound link/button labels inherit the role of their interactive parent. */
+.fast-casual-typography :is(a, button, [role="button"]) :is(.components, p, span) {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  text-transform: inherit;
+  line-height: inherit;
+}

@@ -1,3 +1,5 @@
+import { getBodyTextStyle } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -272,7 +274,7 @@ const HoursComponent: PuckComponent<HoursProps> = (props) => {
     };
   }, [i18n.language]);
   const streamDocument = useDocument<any>();
-  const locale = streamDocument.locale ?? "en";
+  const locale = i18n.language;
   const rawHours = resolveComponentData(props.hours, locale, streamDocument);
   const resolvedHours = isResolvedHours(rawHours) ? rawHours : undefined;
   const rawImage = resolveComponentData(
@@ -313,7 +315,7 @@ const HoursComponent: PuckComponent<HoursProps> = (props) => {
     ? "#FFFFFF"
     : "#000000";
   const hoursTextStyles = {
-    ...getTextStyle(props.hoursStyles.styles),
+    ...getBodyTextStyle(props.hoursStyles.styles),
     color: resolveTextColor(props.hoursStyles.fontColor, panelForeground),
   };
   const renderStatus = (statusProps: StatusParams) => {
@@ -367,12 +369,12 @@ const HoursComponent: PuckComponent<HoursProps> = (props) => {
 
     return (
       <div
-        className="mb-4 flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.08em]"
+        className="mb-4 flex flex-wrap items-center gap-2 tracking-[0.08em]"
         style={{ color: panelForeground }}
       >
         {(props.hoursStyles.showCurrentStatus || isComingSoon) && (
           <span
-            className="rounded-full px-3 py-1 text-[10px]"
+            className="rounded-full px-3 py-1"
             style={{
               backgroundColor: panelForeground,
               color:
@@ -383,7 +385,7 @@ const HoursComponent: PuckComponent<HoursProps> = (props) => {
           </span>
         )}
         {futureText ? (
-          <span className="text-[11px] tracking-[0.02em]">{futureText}</span>
+          <span className="tracking-[0.02em]">{futureText}</span>
         ) : null}
       </div>
     );
@@ -423,7 +425,7 @@ const HoursComponent: PuckComponent<HoursProps> = (props) => {
                 constantValueEnabled={props.heading.text.constantValueEnabled}
               >
                 <h2
-                  className="mb-4 text-[30px] font-bold leading-none md:text-[36px]"
+                  className="mb-4"
                   style={{
                     ...getTextStyle(props.heading.styles),
                     color: resolveTextColor(
@@ -483,7 +485,7 @@ const HoursComponent: PuckComponent<HoursProps> = (props) => {
                       constantValueEnabled={false}
                     >
                       <span
-                        className="mt-4 text-[13px] leading-6"
+                        className="mt-4"
                         style={hoursTextStyles}
                       >
                         {additionalHoursText}
@@ -589,7 +591,11 @@ export const FastCasualHoursSection: YextComponentConfig<HoursProps> = {
       },
     },
   },
-  render: (props) => <HoursComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <HoursComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {

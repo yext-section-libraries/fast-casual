@@ -1,3 +1,5 @@
+import { FastCasualRichText as MaybeRTF } from "../shared/typography";
+import { TypographyScope } from "../shared/typography";
 import type { SectionConfig } from "@yext/visual-editor";
 import { msg } from "@yext/visual-editor";
 import {
@@ -16,7 +18,6 @@ import {
   EntityField,
   getAnalyticsScopeHash,
   getDefaultRTF,
-  MaybeRTF,
   StyledTextValue,
   ThemeColor,
   TranslatableRichText,
@@ -29,6 +30,7 @@ import {
   useDocument,
   isDarkColor,
 } from "@yext/visual-editor";
+import { useTranslation } from "react-i18next";
 
 type FaqItemFields = {
   question: YextEntityField<TranslatableString>;
@@ -237,14 +239,14 @@ const FaqFields: YextFields<FaqProps> = {
 const faqTypographyScopeClass = "yfc-faq-typography";
 
 const faqTypographyStyles = getScopedTypographyStyles(
-  faqTypographyScopeClass,
-);
+  faqTypographyScopeClass);
 
 const FaqComponent: PuckComponent<FaqProps> = (props) => {
   const analytics = useAnalytics();
   const [openIndex, setOpenIndex] = React.useState(0);
   const streamDocument = useDocument();
-  const locale = streamDocument.locale ?? "en";
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const sectionForeground = isDarkColor(props.section.backgroundColor)
     ? "#FFFFFF"
     : "#000000";
@@ -262,7 +264,8 @@ const FaqComponent: PuckComponent<FaqProps> = (props) => {
         <section
           className={`${faqTypographyScopeClass} px-6 py-8 md:px-8 md:py-10`}
           style={{
-            backgroundColor: getThemeColorCssValue(props.section.backgroundColor),
+            backgroundColor: getThemeColorCssValue(props.section.backgroundColor,
+            ),
           }}
         >
           <style>{faqTypographyStyles}</style>
@@ -273,7 +276,7 @@ const FaqComponent: PuckComponent<FaqProps> = (props) => {
               constantValueEnabled={props.heading.text.constantValueEnabled}
             >
               <h2
-                className="mb-6 text-left text-[34px] font-bold leading-none md:text-[44px] lg:text-center"
+                className="mb-6 text-left lg:text-center"
                 style={{
                   ...getTextStyle(props.heading.styles),
                   color: resolveTextColor(
@@ -308,7 +311,7 @@ const FaqComponent: PuckComponent<FaqProps> = (props) => {
                     <article key={`${questionText}-${index}`} className="py-4">
                       <button
                         type="button"
-                        className="flex w-full items-center justify-between gap-4 text-left text-[16px] font-semibold text-current"
+                        className="flex w-full items-center justify-between gap-4 text-left text-current"
                         aria-expanded={isOpen}
                         onClick={() => {
                           const next = isOpen ? -1 : index;
@@ -327,11 +330,11 @@ const FaqComponent: PuckComponent<FaqProps> = (props) => {
                         }}
                       >
                         <span>{questionText}</span>
-                        <span className="text-xl">{isOpen ? "−" : "+"}</span>
+                        <span>{isOpen ? "−" : "+"}</span>
                       </button>
                       {isOpen ? (
                         <div
-                          className="pt-3 text-[14px] leading-6 text-current"
+                          className="pt-3 text-current"
                           style={{
                             color: resolveTextColor(
                               props.answer.fontColor,
@@ -411,7 +414,11 @@ export const FastCasualFaqSection: YextComponentConfig<FaqProps> = {
       fontColor: undefined,
     },
   },
-  render: (props) => <FaqComponent {...props} />,
+  render: (props) => (
+    <TypographyScope>
+      <FaqComponent {...props} />
+    </TypographyScope>
+  ),
 };
 
 export const config: SectionConfig = {
