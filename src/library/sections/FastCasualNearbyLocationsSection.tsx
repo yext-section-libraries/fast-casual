@@ -584,7 +584,7 @@ const NearbyComponent: PuckComponent<NearbyLocationsProps> = (props) => {
 
 export const FastCasualNearbyLocationsSection: YextComponentConfig<NearbyLocationsProps> =
   {
-    label: msg("components.nearbyLocationsSection", "Nearby Locations Section"),
+    label: msg("components.nearbyLocationsLabel", "Nearby Locations"),
     fields: NearbyFields,
     defaultProps: {
       section: {
@@ -665,7 +665,7 @@ export const FastCasualNearbyLocationsSection: YextComponentConfig<NearbyLocatio
 
 export const config: SectionConfig = {
   id: "FastCasualNearbyLocationsSection",
-  displayName: "Nearby Locations Section",
+  displayName: "Nearby Locations",
   description: "Nearby Locations Section",
   pageSetTypes: ["ENTITY"],
 };

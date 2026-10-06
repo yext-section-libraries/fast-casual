@@ -595,7 +595,7 @@ const DetailsComponent: PuckComponent<DetailsProps> = (props) => {
 };
 
 export const FastCasualDetailsSection: YextComponentConfig<DetailsProps> = {
-  label: msg("components.detailsSection", "Details Section"),
+  label: msg("components.detailsLabel", "Details"),
   fields: DetailsFields,
   defaultProps: {
     section: {
@@ -685,7 +685,7 @@ export const FastCasualDetailsSection: YextComponentConfig<DetailsProps> = {
 
 export const config: SectionConfig = {
   id: "FastCasualDetailsSection",
-  displayName: "Details Section",
+  displayName: "Details",
   description: "Details Section",
   pageSetTypes: ["ENTITY"],
 };

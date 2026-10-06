@@ -534,7 +534,7 @@ const FeaturedComponent: PuckComponent<FeaturedProps> = (props) => {
 
 export const FastCasualFeaturedItemsSection: YextComponentConfig<FeaturedProps> =
   {
-    label: msg("components.featuredItemsSection", "Featured Items Section"),
+    label: msg("components.featuredItemsLabel", "Featured Items"),
     fields: FeaturedFields,
     defaultProps: {
       section: {
@@ -603,7 +603,7 @@ export const FastCasualFeaturedItemsSection: YextComponentConfig<FeaturedProps> 
 
 export const config: SectionConfig = {
   id: "FastCasualFeaturedItemsSection",
-  displayName: "Featured Items Section",
+  displayName: "Featured Items",
   description: "Featured Items Section",
   pageSetTypes: ["ENTITY"],
 };

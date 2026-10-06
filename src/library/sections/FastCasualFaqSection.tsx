@@ -367,7 +367,7 @@ const FaqComponent: PuckComponent<FaqProps> = (props) => {
 };
 
 export const FastCasualFaqSection: YextComponentConfig<FaqProps> = {
-  label: msg("components.faqSection", "Faq Section"),
+  label: msg("components.faqLabel", "Faq"),
   fields: FaqFields,
   defaultProps: {
     section: {
@@ -423,7 +423,7 @@ export const FastCasualFaqSection: YextComponentConfig<FaqProps> = {
 
 export const config: SectionConfig = {
   id: "FastCasualFaqSection",
-  displayName: "Faq Section",
+  displayName: "Faq",
   description: "Faq Section",
   pageSetTypes: ["ENTITY"],
 };

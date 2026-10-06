@@ -285,7 +285,7 @@ const EventsComponent: PuckComponent<EventsProps> = (props) => {
 };
 
 export const FastCasualEventsSection: YextComponentConfig<EventsProps> = {
-  label: msg("components.eventsSection", "Events Section"),
+  label: msg("components.eventsLabel", "Events"),
   fields: EventsFields,
   defaultProps: {
     section: {
@@ -347,7 +347,7 @@ export const FastCasualEventsSection: YextComponentConfig<EventsProps> = {
 
 export const config: SectionConfig = {
   id: "FastCasualEventsSection",
-  displayName: "Events Section",
+  displayName: "Events",
   description: "Events Section",
   pageSetTypes: ["ENTITY"],
 };
