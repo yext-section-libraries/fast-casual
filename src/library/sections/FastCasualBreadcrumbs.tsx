@@ -225,7 +225,7 @@ const BreadcrumbsComponent: PuckComponent<BreadcrumbsProps> = (props) => {
 
 export const FastCasualBreadcrumbs: YextComponentConfig<BreadcrumbsProps> =
   {
-    label: msg("components.breadcrumbs", "Breadcrumbs Section"),
+    label: msg("components.breadcrumbsLabel", "Breadcrumbs"),
     render: (props) => <TypographyScope><BreadcrumbsComponent {...props} /></TypographyScope>,
     fields,
     defaultProps: {
@@ -256,7 +256,7 @@ export const FastCasualBreadcrumbs: YextComponentConfig<BreadcrumbsProps> =
 
 export const config: SectionConfig = {
   id: "FastCasualBreadcrumbs",
-  displayName: "Breadcrumbs Section",
+  displayName: "Breadcrumbs",
   description: "Breadcrumbs",
   pageSetTypes: ["ENTITY"],
 };

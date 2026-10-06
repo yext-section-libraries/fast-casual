@@ -191,7 +191,7 @@ const FastCasualBannerComponent: PuckComponent<FastCasualBannerProps> = ({
  * Displays a full-width, editor-configurable rich-text banner.
  */
 export const FastCasualBanner: YextComponentConfig<FastCasualBannerProps> = {
-  label: msg("components.banner", "Banner Section"),
+  label: msg("components.bannerLabel", "Banner"),
   fields: FastCasualBannerFields,
   defaultProps: {
     data: {
@@ -232,7 +232,7 @@ export const FastCasualBanner: YextComponentConfig<FastCasualBannerProps> = {
 
 export const config: SectionConfig = {
   id: "FastCasualBannerSection",
-  displayName: "Banner Section",
+  displayName: "Banner",
   description: "Banner",
   pageSetTypes: ["ENTITY", "DIRECTORY", "LOCATOR"],
 };

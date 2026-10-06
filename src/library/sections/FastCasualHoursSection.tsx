@@ -527,7 +527,7 @@ const HoursComponent: PuckComponent<HoursProps> = (props) => {
 };
 
 export const FastCasualHoursSection: YextComponentConfig<HoursProps> = {
-  label: msg("components.hoursSection", "Hours Section"),
+  label: msg("components.hoursLabel", "Hours"),
   fields: HoursFields,
   defaultProps: {
     section: {
@@ -600,7 +600,7 @@ export const FastCasualHoursSection: YextComponentConfig<HoursProps> = {
 
 export const config: SectionConfig = {
   id: "FastCasualHoursSection",
-  displayName: "Hours Section",
+  displayName: "Hours",
   description: "Hours Section",
   pageSetTypes: ["ENTITY"],
 };

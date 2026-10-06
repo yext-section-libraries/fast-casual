@@ -124,7 +124,7 @@ const IntroComponent: PuckComponent<IntroProps> = (props) => {
 };
 
 export const FastCasualIntroSection: YextComponentConfig<IntroProps> = {
-  label: msg("components.introSection", "Intro Section"),
+  label: msg("components.introLabel", "Intro"),
   fields: IntroFields,
   defaultProps: {
     section: {
@@ -164,7 +164,7 @@ export const FastCasualIntroSection: YextComponentConfig<IntroProps> = {
 
 export const config: SectionConfig = {
   id: "FastCasualIntroSection",
-  displayName: "Intro Section",
+  displayName: "Intro",
   description: "Intro Section",
   pageSetTypes: ["ENTITY"],
 };
