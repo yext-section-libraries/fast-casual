@@ -126,6 +126,7 @@
     "logoImage": "Logokuva",
     "longitude": "Pituusaste",
     "map": "Kartta",
+    "mapStartingZoom": "Kartan aloituszoomaus",
     "mapboxApiKey": "Mapbox-API-avain",
     "mapboxMapStyle": "Mapbox-karttatyyli",
     "mapStyle": "Karttatyyli",

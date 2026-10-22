@@ -128,6 +128,7 @@
     "logoImage": "Logotipo vaizdas",
     "longitude": "Ilguma",
     "map": "Žemėlapis",
+    "mapStartingZoom": "Pradinis žemėlapio mastelio lygis",
     "mapboxApiKey": "„Mapbox“ API raktas",
     "mapboxMapStyle": "„Mapbox“ žemėlapio stilius",
     "mapStyle": "Žemėlapio stilius",

@@ -126,6 +126,7 @@
     "logoImage": "Logobillede",
     "longitude": "Længde",
     "map": "Kort",
+    "mapStartingZoom": "Kortets startzoom",
     "mapboxApiKey": "Mapbox API-nøgle",
     "mapboxMapStyle": "Mapbox-kortstil",
     "mapStyle": "Kortstil",

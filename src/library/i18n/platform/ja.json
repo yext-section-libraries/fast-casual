@@ -125,6 +125,7 @@
     "logoImage": "ロゴ画像",
     "longitude": "経度",
     "map": "地図",
+    "mapStartingZoom": "地図の初期ズームレベル",
     "mapboxApiKey": "Mapbox APIキー",
     "mapboxMapStyle": "Mapbox マップスタイル",
     "mapStyle": "マップスタイル",

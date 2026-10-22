@@ -127,6 +127,7 @@
     "logoImage": "Slika logotipa",
     "longitude": "Dužina",
     "map": "Karta",
+    "mapStartingZoom": "Početna razina zumiranja karte",
     "mapboxApiKey": "Mapbox API ključ",
     "mapboxMapStyle": "Stil karte Mapbox",
     "mapStyle": "Stil karte",

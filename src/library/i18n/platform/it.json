@@ -127,6 +127,7 @@
     "logoImage": "Immagine logo",
     "longitude": "Longitudine",
     "map": "Mappa",
+    "mapStartingZoom": "Livello di zoom iniziale della mappa",
     "mapboxApiKey": "Chiave API Mapbox",
     "mapboxMapStyle": "Stile mappa Mapbox",
     "mapStyle": "Stile della mappa",

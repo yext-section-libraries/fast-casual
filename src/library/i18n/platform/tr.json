@@ -126,6 +126,7 @@
     "logoImage": "Logo Görseli",
     "longitude": "Boylam",
     "map": "Harita",
+    "mapStartingZoom": "Haritanın başlangıç yakınlaştırma düzeyi",
     "mapboxApiKey": "Mapbox API anahtarı",
     "mapboxMapStyle": "Mapbox Harita Stili",
     "mapStyle": "Harita stili",
