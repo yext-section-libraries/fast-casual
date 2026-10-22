@@ -126,6 +126,7 @@
     "logoImage": "Logo pilt",
     "longitude": "Pikkuskraad",
     "map": "Kaart",
+    "mapStartingZoom": "Kaardi algne suumitase",
     "mapboxApiKey": "Mapboxi API võti",
     "mapboxMapStyle": "Mapboxi kaardistiil",
     "mapStyle": "Kaardistiil",

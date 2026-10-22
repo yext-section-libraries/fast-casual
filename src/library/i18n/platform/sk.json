@@ -128,6 +128,7 @@
     "logoImage": "Obrázok loga",
     "longitude": "Dĺžka",
     "map": "Mapa",
+    "mapStartingZoom": "Počiatočné priblíženie mapy",
     "mapboxApiKey": "Kľúč API Mapbox",
     "mapboxMapStyle": "Štýl mapy Mapbox",
     "mapStyle": "Mapový štýl",

@@ -127,6 +127,7 @@
     "logoImage": "Imagine siglă",
     "longitude": "Longitudine",
     "map": "Hartă",
+    "mapStartingZoom": "Nivelul inițial de zoom al hărții",
     "mapboxApiKey": "Cheie API Mapbox",
     "mapboxMapStyle": "Stil hartă Mapbox",
     "mapStyle": "Stilul hărții",

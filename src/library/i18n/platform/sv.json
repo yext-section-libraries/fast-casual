@@ -126,6 +126,7 @@
     "logoImage": "Logotypbild",
     "longitude": "Longitud",
     "map": "Karta",
+    "mapStartingZoom": "Kartans startzoom",
     "mapboxApiKey": "Mapbox API-nyckel",
     "mapboxMapStyle": "Mapbox-kartstil",
     "mapStyle": "Kartstil",

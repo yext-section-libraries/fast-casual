@@ -126,6 +126,7 @@
     "logoImage": "Logobilde",
     "longitude": "Lengdegrad",
     "map": "Kart",
+    "mapStartingZoom": "Kartets startzoom",
     "mapboxApiKey": "Mapbox API-nøkkel",
     "mapboxMapStyle": "Mapbox-kartstil",
     "mapStyle": "Kartstil",
