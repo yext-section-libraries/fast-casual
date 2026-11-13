@@ -236,6 +236,7 @@
           {
             "type": "Locator",
             "props": {
+              "autoSearchOnMapMove": false,
               "pageHeading": {
                 "title": {
                   "defaultValue": "Find a Location"
